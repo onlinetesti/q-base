@@ -1,41 +1,1041 @@
-// База вопросов. Публикуем в window, чтобы index.html гарантированно её увидел.
-// correct_ru / correct_kz должны ТОЧНО совпадать с текстом в options_ru / options_kz.
+// Полная база вопросов с поддержкой картинок и множественного выбора.
+// Правильные ответы хранятся в массивах (correct_ru / correct_kz).
 
 window.questions = [
     {
-        text_ru: "Дана реляционная схема базы данных интернет-магазина:\n`Customers` (CustomerID, Name, Email)\n`Orders` (OrderID, CustomerID, OrderDate, TotalAmount)\n\nКакая из следующих SQL-инструкций выведет имена всех клиентов (`Name`), у которых общая сумма заказов (`TotalAmount`) превышает 50000, используя правильное соединение таблиц и группировку?",
-        text_kz: "Интернет-дүкен дерекқорының реляциялық схемасы берілген:\n`Customers` (CustomerID, Name, Email)\n`Orders` (OrderID, CustomerID, OrderDate, TotalAmount)\n\nТөмендегі SQL нұсқаулықтарының қайсысы кестелерді дұрыс біріктіру және топтастыру арқылы жалпы тапсырыс сомасы (`TotalAmount`) 50000-нен асатын барлық клиенттердің (`Name`) есімдерін шығарады?",
-        options_ru: [
-            "SELECT c.Name FROM Customers c JOIN Orders o ON c.CustomerID = o.CustomerID WHERE SUM(o.TotalAmount) > 50000",
-            "SELECT c.Name FROM Customers c GROUP BY c.Name HAVING o.TotalAmount > 50000 JOIN Orders o ON c.CustomerID = o.CustomerID",
-            "SELECT c.Name FROM Customers c JOIN Orders o ON c.CustomerID = o.CustomerID GROUP BY c.Name HAVING SUM(o.TotalAmount) > 50000",
-            "SELECT Name FROM Customers WHERE TotalAmount > 50000 GROUP BY CustomerID"
-        ],
-        options_kz: [
-            "SELECT c.Name FROM Customers c JOIN Orders o ON c.CustomerID = o.CustomerID WHERE SUM(o.TotalAmount) > 50000",
-            "SELECT c.Name FROM Customers c GROUP BY c.Name HAVING o.TotalAmount > 50000 JOIN Orders o ON c.CustomerID = o.CustomerID",
-            "SELECT c.Name FROM Customers c JOIN Orders o ON c.CustomerID = o.CustomerID GROUP BY c.Name HAVING SUM(o.TotalAmount) > 50000",
-            "SELECT Name FROM Customers WHERE TotalAmount > 50000 GROUP BY CustomerID"
-        ],
-        correct_ru: "SELECT c.Name FROM Customers c JOIN Orders o ON c.CustomerID = o.CustomerID GROUP BY c.Name HAVING SUM(o.TotalAmount) > 50000",
-        correct_kz: "SELECT c.Name FROM Customers c JOIN Orders o ON c.CustomerID = o.CustomerID GROUP BY c.Name HAVING SUM(o.TotalAmount) > 50000"
+        text_ru: "«... означает, что все внешние аспекты скрыты от внешнего мира, отдельно от деталей его внутренней структуры.» (Дополните текст)",
+        text_kz: "«... барлық сыртқы аспектілері оның ішкі құрылысының сыртқы әлемнен жасырылған егжей-тегжейлерінен бөлек көрсетілетінін білдіреді.» (Мәтінді толықтырыңыз)",
+        options_ru: ["Сокрытие информации", "Абстракция", "Инкапсуляция", "Наследование", "Полиморфизм"],
+        options_kz: ["ақпаратты жасыру", "абстракция", "инкапсуляция", "мұрагерлік", "полиморфизм"],
+        correct_ru: ["Инкапсуляция"],
+        correct_kz: ["инкапсуляция"]
     },
     {
-        text_ru: "Что такое первичный ключ (Primary Key) в реляционной базе данных?",
-        text_kz: "Реляциялық дерекқордағы негізгі кілт (Primary Key) дегеніміз не?",
+        text_ru: "«... означает, что объект содержит как структуру данных, так и набор операций для манипулирования этой структурой.» (Дополните текст)",
+        text_kz: "«... объект деректер құрылымын да, осы құрылымды манипуляциялауға арналған операциялар жиынтығын да қамтитынын білдіреді.» (Мәтінді толықтырыңыз)",
+        options_ru: ["Сокрытие информации", "Нормализация", "Инкапсуляция", "Рекурсия", "Транзакция"],
+        options_kz: ["ақпаратты жасыру", "нормализация", "инкапсуляция", "рекурсия", "транзакция"],
+        correct_ru: ["Инкапсуляция"],
+        correct_kz: ["инкапсуляция"]
+    },
+    {
+        text_ru: "«Все члены кооператива совместно владеют имуществом кооператива». Какой тип связи?",
+        text_kz: "«Барлық кооператив мүшелері кооператив мүлкіне ортақ иелік етеді.» Қандай байланыс түрі бар?",
+        options_ru: ["1:1", "Рекурсивная связь", "1:M", "M:N", "Связи нет"],
+        options_kz: ["1:1", "рекурсивті байланыс", "1:M", "M:N", "байланыс жоқ"],
+        correct_ru: ["M:N"],
+        correct_kz: ["M:N"]
+    },
+    {
+        text_ru: "«Газета печатает объявления об объектах, сдаваемых в аренду». Тип связи между газетой и объявлениями:",
+        text_kz: "«Газета жалға берілетін объектілер туралы хабарландырулар басып шығарады.» Газета мен хабарландырулар арасындағы байланыс түрі:",
+        options_ru: ["Иерархическая связь", "M:N", "N:1", "1:1", "1:M"],
+        options_kz: ["иерархиялық байланыс", "M:N", "N:1", "1:1", "1:M"],
+        correct_ru: ["1:M"],
+        correct_kz: ["1:M"]
+    },
+    {
+        text_ru: "Какой тип связи показан на рисунке (структура поколений-предков / сын-отец)?",
+        text_kz: "Суретте берілген (ұрпақ-ата / сын-отец құрылымы) байланыс түрі қандай?",
+        image: "images/q5.png", // <-- ДОБАВЛЕНА КАРТИНКА
+        options_ru: ["Горизонтальная связь", "Связь один-к-одному", "Внешняя связь", "Рекурсивная связь", "Связь многие-ко-многим"],
+        options_kz: ["көлденең байланыс", "бірге-бір байланыс", "сыртқы байланыс", "рекурсивті байланыс", "көпке-көп байланысы"],
+        correct_ru: ["Рекурсивная связь"],
+        correct_kz: ["рекурсивті байланыс"]
+    },
+    {
+        text_ru: "Как организованы данные в иерархических базах данных?",
+        text_kz: "Иерархиялық базаларда деректер қалай ұйымдастырылады?",
+        options_ru: ["В виде неупорядоченных файлов", "В виде древовидной структуры", "В виде набора двумерных таблиц", "Только в виде текстовых строк", "В виде наборов графов"],
+        options_kz: ["Ретсіз файлдар түрінде", "Ағаш тәрізді құрылым түрінде", "Екі өлшемді кестелер жиынтығы түрінде", "Тек мәтіндік қатарлар ретінле", "Графтар жинтығы ретінде"],
+        correct_ru: ["В виде древовидной структуры"],
+        correct_kz: ["Ағаш тәрізді құрылым түрінде"]
+    },
+    {
+        text_ru: "SQL Server 2000 не позволяет выполнять обновление базы данных:",
+        text_kz: "SQL Server 2000 деректер базасының жаңартылуын орындауға рұқсат етпейді:",
+        options_ru: ["SQL Server 7.0", "SQL Server 6.0", "База Oracle", "SQL Server 6.5", "База Access"],
+        options_kz: ["SQL Server 7.0", "SQL Server 6.0", "Oracle базасы", "SQL Server 6.5", "Access деректер базасы"],
+        correct_ru: ["SQL Server 6.0"],
+        correct_kz: ["SQL Server 6.0"]
+    },
+    {
+        text_ru: "Под управлением каких операционных систем работает SQL Server 2000? (Несколько правильных ответов)",
+        text_kz: "SQL Server 2000 төмендегі операциялық жүйелердің қайсысының басқаруымен жұмыс істей алады? (Бірнеше дұрыс жауап бар)",
+        options_ru: ["Windows NT Server 4.0", "Windows 10", "Windows NT Workstation 4.0", "MS-DOS", "MacOS", "Windows 98", "Windows 2000", "Linux Ubuntu"],
+        options_kz: ["Windows NT Server 4.0", "Windows 10", "Windows NT Workstation 4.0", "MS-DOS", "MacOS", "Windows 98", "Windows 2000", "Linux Ubuntu"],
+        correct_ru: ["Windows NT Server 4.0", "Windows NT Workstation 4.0", "Windows 98", "Windows 2000"],
+        correct_kz: ["Windows NT Server 4.0", "Windows NT Workstation 4.0", "Windows 98", "Windows 2000"]
+    },
+    {
+        text_ru: "Unicode — это ... представление символа.",
+        text_kz: "Unicode — бұл символдың ... көрсетілуі.",
+        options_ru: ["Трехбайтовое", "Двухбайтовое", "Однобайтовое", "Четырехбайтовое", "Битовое"],
+        options_kz: ["ұшбайтық", "екібайтық", "бірбайтық", "төртбайтық", "биттік"],
+        correct_ru: ["Двухбайтовое"],
+        correct_kz: ["екібайтық"]
+    },
+    {
+        text_ru: "Какая роль в SQL Server обладает абсолютными (полными) правами?",
+        text_kz: "SQL Server-де абсолютті (толық) құқықтарға қай роль мүшелері ие?",
+        options_ru: ["setupadmin", "db_owner", "sysadmin", "securityadmin", "serveradmin"],
+        options_kz: ["setupadmin", "db_owner", "sysadmin", "securityadmin", "serveradmin"],
+        correct_ru: ["sysadmin"],
+        correct_kz: ["sysadmin"]
+    },
+    {
+        text_ru: "Какая служба осуществляет автоматический запуск заданий и уведомление операторов об ошибках в работе сервера?",
+        text_kz: "Тапсырмаларды автоматты түрде іске қосуды және сервер жұмысындағы қателіктер туралы операторларды хабарландыруды қай қызмет жүзеге асырады?",
+        options_ru: ["MSSQLServer", "SQLServerAgent", "Distributed Transaction Coordinator", "Microsoft Search", "SQL Service Manager"],
+        options_kz: ["MSSQLServer", "SQLServerAgent", "Distributed Transaction Coordinator", "Microsoft Search", "SQL Service Manager"],
+        correct_ru: ["SQLServerAgent"],
+        correct_kz: ["SQLServerAgent"]
+    },
+    {
+        text_ru: "Асинхронный процесс передачи изменений объектов исходной базы данных в базы, расположенные на других узлах распределенной системы:",
+        text_kz: "Үлестірілген жүйенің басқа түйіндерінде орналасқан базаларға бастапқы мәліметтер базасы объектілерінің өзгерістерін ауыстырып отырудың асинхронды процесі:",
+        options_ru: ["Тиражирование данных", "Нормализация", "Индексирование", "Фрагментация транзакций", "Декомпозиция"],
+        options_kz: ["мәліметтерді тираждау", "нормализация", "индекстеу", "транзакцияларды фрагменттеу", "декомпозиция"],
+        correct_ru: ["Тиражирование данных"],
+        correct_kz: ["мәліметтерді тираждау"]
+    },
+    {
+        text_ru: "Набор атрибутов, соответствующий потенциальному ключу некоторого отношения внутри отношения:",
+        text_kz: "Қатынас ішіндегі кейбір қатынастың потенциалды кілтіне сәйкес келетін атрибут немесе атрибуттар жиынтығы:",
+        options_ru: ["Первичный ключ", "Внешний ключ", "Суперключ", "Составной ключ", "Суррогатный ключ"],
+        options_kz: ["Бастапқы кілт", "Сыртқы кілт", "Супер кілт", "Құрама кілт", "Суррогат кілт"],
+        correct_ru: ["Суперключ"],
+        correct_kz: ["Супер кілт"]
+    },
+    {
+        text_ru: "Набор атрибутов, однозначно идентифицирующий кортеж данного отношения:",
+        text_kz: "Осы қатынастың қортежін жалғыз түрде идентификациялайтын атрибут немесе атрибуттар жиынтығы:",
+        options_ru: ["Внешний ключ", "Суперключ", "Вторичный индекс", "Домен", "Предикат"],
+        options_kz: ["Сыртқы кілт", "Супер кілт", "Екіншілік индекс", "Домен", "Предикат"],
+        correct_ru: ["Суперключ"],
+        correct_kz: ["Супер кілт"]
+    },
+    {
+        text_ru: "База, в которой хранится вся системная информация, используемая службой SQLServerAgent:",
+        text_kz: "SQLServerAgent қызметі пайдаланатын барлық жүйелік ақпарат орналасқан база:",
+        options_ru: ["Master", "Model", "Msdb", "Tempdb", "Pubs"],
+        options_kz: ["Master", "Model", "Msdb", "Tempdb", "Pubs"],
+        correct_ru: ["Msdb"],
+        correct_kz: ["Msdb"]
+    },
+    {
+        text_ru: "База, в которой хранится информация о пользователях, имеющих доступ к серверу:",
+        text_kz: "Серверге кіруге рұқсаты бар пайдаланушылар туралы ақпарат сақталатын база:",
+        options_ru: ["Model", "Master", "Msdb", "Tempdb", "Distribution"],
+        options_kz: ["Model", "Master", "Msdb", "Tempdb", "Distribution"],
+        correct_ru: ["Master"],
+        correct_kz: ["Master"]
+    },
+    {
+        text_ru: "База, в которой хранится информация о пользовательских базах данных, имеющихся на сервере:",
+        text_kz: "Серверде бар пайдаланушылық мәліметтер базалары туралы ақпарат сақталатын база:",
+        options_ru: ["Tempdb", "Master", "Msdb", "Model", "Northwind"],
+        options_kz: ["Tempdb", "Master", "Msdb", "Model", "Northwind"],
+        correct_ru: ["Master"],
+        correct_kz: ["Master"]
+    },
+    {
+        text_ru: "База, в которой хранится вся информация о параметрах конфигурации сервера:",
+        text_kz: "Сервер конфігурациясының параметрлері туралы барлық ақпарат сақталатын база:",
+        options_ru: ["Msdb", "Master", "Model", "Tempdb", "Resource"],
+        options_kz: ["Msdb", "Master", "Model", "Tempdb", "Resource"],
+        correct_ru: ["Master"],
+        correct_kz: ["Master"]
+    },
+    {
+        text_ru: "База, в которой хранится вся системная информация, используемая службой SQLServerAgent:",
+        text_kz: "SQLServerAgent қызметі пайдаланатын барлық жүйелік ақпарат орналасқан база:",
+        options_ru: ["Master", "Model", "Msdb", "Tempdb", "Pubs"],
+        options_kz: ["Master", "Model", "Msdb", "Tempdb", "Pubs"],
+        correct_ru: ["Msdb"],
+        correct_kz: ["Msdb"]
+    },
+    {
+        text_ru: "Бесплатная пробная версия системы SQL Server 2000:",
+        text_kz: "SQL Server 2000 жүйесінің тегін сынақ басылымы:",
+        options_ru: ["Enterprise Edition", "Standard Edition", "Evaluation Edition", "Developer Edition", "Personal Edition"],
+        options_kz: ["Enterprise Edition", "Standard Edition", "Evaluation Edition", "Developer Edition", "Personal Edition"],
+        correct_ru: ["Evaluation Edition"],
+        correct_kz: ["Evaluation Edition"]
+    },
+    {
+        text_ru: "В виде какой службы реализован координатор распределенных транзакций в SQL Server 2000?",
+        text_kz: "SQL Server 2000 жүйесінде үлестірілген транзакциялар координаторы қай қызмет түрінде іске асырылған?",
+        options_ru: ["MSSQLServer", "MSDTC", "SQLServerAgent", "MSSearch", "SQL Profiler"],
+        options_kz: ["MSSQLServer", "MSDTC", "SQLServerAgent", "MSSearch", "SQL Profiler"],
+        correct_ru: ["MSDTC"],
+        correct_kz: ["MSDTC"]
+    },
+    {
+        text_ru: "Графическая ассоциация, устанавливаемая между двумя значениями на диаграммах ER-модели:",
+        text_kz: "ER-моделі диаграммаларында екі мән арасында орнатылатын графикалық ассоциация:",
+        options_ru: ["Атрибут", "Связь", "Кортеж", "Домен", "Значение"],
+        options_kz: ["атрибут", "байланыс", "кортеж", "домен", "мән"],
+        correct_ru: ["Связь"],
+        correct_kz: ["байланыс"]
+    },
+    {
+        text_ru: "Любая деталь на диаграммах ER-модели, служащая для определения, идентификации, классификации или числовой характеристики:",
+        text_kz: "ER-моделі диаграммаларында анықтауға, идентификациялауға, жіктеуге немесе санмен сипаттауға қызмет ететін кез келген деталь:",
+        options_ru: ["Значение", "Атрибут", "Связь", "Таблица", "Ключ"],
+        options_kz: ["мән", "атрибут", "байланыс", "кесте", "кілт"],
+        correct_ru: ["Атрибут"],
+        correct_kz: ["атрибут"]
+    },
+    {
+        text_ru: "Реальный или абстрактный объект, информация о котором представляет интерес на диаграммах ER-модели:",
+        text_kz: "ER-моделі диаграммаларында ақпараты қызығушылық тудыратын нақты немесе абстрактілі объект:",
+        options_ru: ["Атрибут", "Значение", "Связь", "Религия", "Кортеж"],
+        options_kz: ["атрибут", "мән", "байланыс", "религия", "кортеж"],
+        correct_ru: ["Значение"],
+        correct_kz: ["мән"]
+    },
+    {
+        text_ru: "В запросе FROM таблица_1 INNER JOIN таблица_2 ON ...:",
+        text_kz: "FROM таблица_1 INNER JOIN таблица_2 ON ... сұранысында:",
+        options_ru: ["Выводятся только записи 1-й таблицы", "Включаются только записи обеих таблиц, соответствующие условию", "Выводятся все записи только 2-й таблицы", "Формируется декартово произведение", "Добавляются все записи 1-й таблицы"],
+        options_kz: ["Тек 1-кестенің жазбалары шығады", "Екі кестенің де тек шартқа сәйкес келетін жазбалары енгізіледі", "Тек 2-кестенің барлық жазбалары шығады", "Декарттық көбейтінді қалыптасады", "1-кестенің барлық жазбалары қосылады"],
+        correct_ru: ["Включаются только записи обеих таблиц, соответствующие условию"],
+        correct_kz: ["Екі кестенің де тек шартқа сәйкес келетін жазбалары енгізіледі"]
+    },
+    {
+        text_ru: "В запросе FROM таблица_1 RIGHT JOIN таблица_2 ON ...:",
+        text_kz: "FROM таблица_1 RIGHT JOIN таблица_2 ON ... сұранысында:",
+        options_ru: ["Выводятся все записи 1-й таблицы", "Выводятся все записи 2-й таблицы и соответствующие критерию записи 1-й таблицы", "Выводятся только записи, имеющиеся в обеих таблицах", "Все записи удаляются", "Удаляются только непустые записи 2-й таблицы"],
+        options_kz: ["1-кестенің барлық жазбалары шығады", "2-кестенің барлық жазбалары және 1-кестенің критерийге сәйкес жазбалары көрсетіледі", "Тек екі кестеде де бар жазбалар шығады", "Барлық жазбалар жойылады", "2-кестенің тек бос емес жазбалары өшіріледі"],
+        correct_ru: ["Выводятся все записи 2-й таблицы и соответствующие критерию записи 1-й таблицы"],
+        correct_kz: ["2-кестенің барлық жазбалары және 1-кестенің критерийге сәйкес жазбалары көрсетіледі"]
+    },
+    {
+        text_ru: "Какое издание лучше использовать на многопроцессорных системах с поддержкой до 4 процессоров и 2 ГБ ОЗУ:",
+        text_kz: "4 процессор және 2 ГБ ОЗУ-ға дейін қолдайтын көппроцессорлы жүйелерде қай басылымды пайдаланған жөн:",
+        options_ru: ["Personal Edition", "Standard Edition", "Enterprise Edition", "Developer Edition", "MSDE"],
+        options_kz: ["Personal Edition", "Standard Edition", "Enterprise Edition", "Developer Edition", "MSDE"],
+        correct_ru: ["Standard Edition"],
+        correct_kz: ["Standard Edition"]
+    },
+    {
+        text_ru: "В каком виде организованы данные в реляционной базе данных?",
+        text_kz: "Реляциялық мәліметтер базасында мәліметтер не түрде ұйымдастырылған?",
+        options_ru: ["Дерево", "Сеть", "Двумерные таблицы", "Стек", "Список файлов"],
+        options_kz: ["ағаш", "желі", "екіөлшемді кестелер", "стек", "файлдар тізімі"],
+        correct_ru: ["Двумерные таблицы"],
+        correct_kz: ["екіөлшемді кестелер"]
+    },
+    {
+        text_ru: "Способы решения проблемы в случае отказа оперативной памяти центрального процессора или сетевой карты: (Выберите все подходящие)",
+        text_kz: "Орталық процессордың жедел жадысы немесе желілік карта істен шыққан жағдайда мәселені шешу жолдары: (Барлық сәйкес келетінің таңдаңыз)",
+        options_ru: ["Использование кластеров", "Использование резервного сервера", "Удаление базы", "Форматирование", "Установка msde", "Добавление процессоров", "Отключение сети", "Остановка задания"],
+        options_kz: ["кластерлерді пайдалану", "резервтік серверді пайдалану", "базаны өшіріп тастау", "форматирование жасау", "msde орнату", "көп процессор қосу", "желіні өшіру", "тапсырманы тоқтату"],
+        correct_ru: ["Использование кластеров", "Использование резервного сервера"],
+        correct_kz: ["кластерлерді пайдалану", "резервтік серверді пайдалану"]
+    },
+    {
+        text_ru: "Как называется взаимозависимость элементов друг от друга?",
+        text_kz: "Элементтердің өзара бір-біріне тәуелділігі қалай аталады?",
+        options_ru: ["Инкапсуляция", "Функциональная взаимосвязь", "Декомпозиция", "Полиморфизм", "Агрегация"],
+        options_kz: ["инкапсуляция", "функционалдық өзара байланыс", "декомпозиция", "полиморфизм", "агрегация"],
+        correct_ru: ["Функциональная взаимосвязь"],
+        correct_kz: ["функционалдық өзара байланыс"]
+    },
+    {
+        text_ru: "Как называются виртуальные таблицы, отображающие данные, хранящиеся в других таблицах?",
+        text_kz: "Басқа кестелерде сақталған мәліметтерді көрсететін виртуалды кестелер қалай аталады?",
+        options_ru: ["Индексы", "Представления", "Триггеры", "Хранимые процедуры", "Транзакции"],
+        options_kz: ["индекстер", "көріністер", "триггерлер", "сақталатын процедура", "транзакция"],
+        correct_ru: ["Представления"],
+        correct_kz: ["көріністер"]
+    },
+    {
+        text_ru: "Главное отличие какого типа учетной записи — возможность работы в сети?",
+        text_kz: "Желіде жұмыс істеу мүмкіндігі қай тіркелгі түрінің басты айырмашылығы болып табылады?",
+        options_ru: ["Local System", "User for Domain", "Local Admin", "Guest", "Network Administrator"],
+        options_kz: ["Local System", "User for Domain", "Local Admin", "Guest", "Network Administrator"],
+        correct_ru: ["User for Domain"],
+        correct_kz: ["User for Domain"]
+    },
+    {
+        text_ru: "Какая роль имеет право создавать новые учетные записи и предоставлять им право создавать базы?",
+        text_kz: "Жаңа тіркелгілер құруға және оларға база құру құқығын беруге қай роль мүшелері құқылы?",
+        options_ru: ["db_owner", "securityadmin", "db_accessadmin", "setupadmin", "processadmin"],
+        options_kz: ["db_owner", "securityadmin", "db_accessadmin", "setupadmin", "processadmin"],
+        correct_ru: ["securityadmin"],
+        correct_kz: ["securityadmin"]
+    },
+    {
+        text_ru: "В каком издании есть возможность создавать очень многомерные OLAP-кубы, которые сохраняются и анализируются?",
+        text_kz: "Өте көп өлшемдері бар, сақталатын және талданатын OLAP-кубтарды құру мүмкіндігі қай басылымда бар?",
+        options_ru: ["Standard Edition", "Enterprise Edition", "Personal Edition", "Desktop Engine", "Workgroup Edition"],
+        options_kz: ["Standard Edition", "Enterprise Edition", "Personal Edition", "Desktop Engine", "Workgroup Edition"],
+        correct_ru: ["Enterprise Edition"],
+        correct_kz: ["Enterprise Edition"]
+    },
+    {
+        text_ru: "В каком инструменте SQL Server 2000 есть возможность трассировки выполнения хранимых процедур?",
+        text_kz: "Сөреленген процедуралардың (хранимые процедуры) орындалуын трассировкалау мүмкіндігі SQL Server 2000 қай құралында бар?",
+        options_ru: ["Enterprise Manager", "Query Analyzer", "Service Manager", "Import and Export Data", "Client Network Utility"],
+        options_kz: ["Enterprise Manager", "Query Analyzer", "Service Manager", "Import and Export Data", "Client Network Utility"],
+        correct_ru: ["Query Analyzer"],
+        correct_kz: ["Query Analyzer"]
+    },
+    {
+        text_ru: "Какой роли принадлежит управление правами доступа к объектам базы данных других пользователей?",
+        text_kz: "Басқа пайдаланушылардың база объектілеріне рұқсат құқықтарын басқару қай рольге тиесілі?",
+        options_ru: ["db_securityadmin", "db_ddladmin", "db_datareader", "db_datawriter", "db_owner"],
+        options_kz: ["db_securityadmin", "db_ddladmin", "db_datareader", "db_datawriter", "db_owner"],
+        correct_ru: ["db_securityadmin"],
+        correct_kz: ["db_securityadmin"]
+    },
+    {
+        text_ru: "Как называется временное ограничение на использование определенных ресурсов со стороны системы?",
+        text_kz: "Система тарапынан белгілі бір ресурстарды пайдалануға қойылатын уақытша шектеу қалай аталады?",
+        options_ru: ["Транзакция", "Блокировка", "Индекс", "Триггер", "Каскад"],
+        options_kz: ["транзакция", "бұғаттау", "индекс", "триггер", "каскадтау"],
+        correct_ru: ["Блокировка"],
+        correct_kz: ["бұғаттау"]
+    },
+    {
+        text_ru: "Как называется временный штамп или версия строки?",
+        text_kz: "Уақытша штамп немесе жолдың нұсқасы қалай аталады?",
+        options_ru: ["datetime", "timestamp", "rowid", "identity", "binary"],
+        options_kz: ["datetime", "timestamp", "rowid", "identity", "binary"],
+        correct_ru: ["timestamp"],
+        correct_kz: ["timestamp"]
+    },
+    {
+        text_ru: "Каким сроком ограничено время использования SQL Server 2000 Evaluation Edition?",
+        text_kz: "SQL Server 2000 Evaluation Edition пайдалану уақыты қандай мерзіммен шектелген?",
+        options_ru: ["30 дней", "60 дней", "120 дней", "180 дней", "365 дней"],
+        options_kz: ["30 күн", "60 күн", "120 күн", "180 күн", "365 күн"],
+        correct_ru: ["120 дней"],
+        correct_kz: ["120 күн"]
+    },
+    {
+        text_ru: "В каком файле сохраняются все данные конфигурации сервера, введенные пользователем во время установки?",
+        text_kz: "Инсталляция кезінде пайдаланушы енгізген сервер конфигурациясының барлық мәліметтері қай файлда сақталады?",
+        options_ru: ["Setup.log", "Setup.iss", "Sqlstp.log", "Sql.ini", "System.cfg"],
+        options_kz: ["Setup.log", "Setup.iss", "Sqlstp.log", "Sql.ini", "System.cfg"],
+        correct_ru: ["Setup.iss"],
+        correct_kz: ["Setup.iss"]
+    },
+    {
+        text_ru: "Какой командой модификации в SQL вставляются все строки?",
+        text_kz: "SQL-де барлық жолдар қай модификациялау командасын пайдаланып енгізіледі?",
+        options_ru: ["UPDATE", "INSERT", "CREATE", "ALTER", "ADD"],
+        options_kz: ["UPDATE", "INSERT", "CREATE", "ALTER", "ADD"],
+        correct_ru: ["INSERT"],
+        correct_kz: ["INSERT"]
+    },
+    {
+        text_ru: "Как называется внешний мир, существующий вне нас и независимо от нашего сознания, материальная действительность?",
+        text_kz: "Бізден тыс және біздің санамызға тәуелсіз өмір сүретін, сыртқы әлемнің ықпалы мен материалдық шындық қалай аталады?",
+        options_ru: ["Субъект", "Объект", "Предикат", "Модель", "Символ"],
+        options_kz: ["Субъект", "Объект", "Предикат", "Модель", "Символ"],
+        correct_ru: ["Объект"],
+        correct_kz: ["Объект"]
+    },
+    {
+        text_ru: "Служба, которая всегда запускается первой при загрузке SQL Server:",
+        text_kz: "SQL Server жүктелгенде әрқашан бірінші болып іске қосылатын қызмет:",
+        options_ru: ["SQLServerAgent", "MSSQLServer", "MSDTC", "MSSearch", "Browser Service"],
+        options_kz: ["SQLServerAgent", "MSSQLServer", "MSDTC", "MSSearch", "Browser Service"],
+        correct_ru: ["MSSQLServer"],
+        correct_kz: ["MSSQLServer"]
+    },
+    {
+        text_ru: "Главная база данных системы SQL Server 2000, в которой хранится системная информация:",
+        text_kz: "SQL Server 2000 жүйесінің жүйелік ақпарат сақталатын басты базасы:",
+        options_ru: ["Tempdb", "Master", "Model", "Msdb", "Distribution"],
+        options_kz: ["Tempdb", "Master", "Model", "Msdb", "Distribution"],
+        correct_ru: ["Master"],
+        correct_kz: ["Master"]
+    },
+    {
+        text_ru: "Графический инструмент, с помощью которого администратор может контролировать различные аспекты работы SQL Server:",
+        text_kz: "Администратор SQL Server жұмысының түрлі аспектілерін бақылай алатын графикалық құрал:",
+        options_ru: ["Query Analyzer", "SQL Server Profiler", "Enterprise Manager", "Service Manager", "Client Network Utility"],
+        options_kz: ["Query Analyzer", "SQL Server Profiler", "Enterprise Manager", "Service Manager", "Client Network Utility"],
+        correct_ru: ["SQL Server Profiler"],
+        correct_kz: ["SQL Server Profiler"]
+    },
+    {
+        text_ru: "Как называются данные о данных?",
+        text_kz: "Мәліметтер туралы мәліметтер қалай аталады?",
+        options_ru: ["База данных", "Метаданные", "Гипертекст", "Схема", "Кортеж"],
+        options_kz: ["мәліметтер қоры", "метадеректер", "гипертекст", "схема", "кортеж"],
+        correct_ru: ["Метаданные"],
+        correct_kz: ["метадеректер"]
+    },
+    {
+        text_ru: "Двоичный тип данных объемом до 2 Гбайт:",
+        text_kz: "Көлемі 2 Гбайтқа дейінгі екілік мәліметтер типі:",
+        options_ru: ["varbinary", "image", "binary", "blob", "text"],
+        options_kz: ["varbinary", "image", "binary", "blob", "text"],
+        correct_ru: ["image"],
+        correct_kz: ["image"]
+    },
+    {
+        text_ru: "Двоичный тип данных переменной длины объемом до 8000 байт:",
+        text_kz: "Көлемі 8000 байтқа дейінгі айнымалы ұзындықтағы двоичный мәліметтер типі:",
+        options_ru: ["binary", "varbinary", "image", "raw", "byte"],
+        options_kz: ["binary", "varbinary", "image", "raw", "byte"],
+        correct_ru: ["varbinary"],
+        correct_kz: ["varbinary"]
+    },
+    {
+        text_ru: "Двоичный тип данных фиксированной длины объемом до 8000 байт:",
+        text_kz: "Көлемі 8000 байтқа дейінгі бекітілген ұзындықтағы екілік мәліметтер типі:",
+        options_ru: ["varbinary", "binary", "image", "byte", "bit"],
+        options_kz: ["varbinary", "binary", "image", "byte", "bit"],
+        correct_ru: ["binary"],
+        correct_kz: ["binary"]
+    },
+    {
+        text_ru: "Какое множество дает декартово произведение двух множеств D1={2,4} и D2={1,3,5}?",
+        text_kz: "D1={2,4} және D2={1,3,5} екі жиынның декарттық көбейтіндісі қандай жиынды береді?",
+        options_ru: ["(2,1),(4,5)", "(2,1),(2,3),(2,5),(4,1),(4,3),(4,5)", "(1,2),(3,4)", "(2,4),(1,3,5)", "2,4,1,3,5"],
+        options_kz: ["(2,1),(4,5)", "(2,1),(2,3),(2,5),(4,1),(4,3),(4,5)", "(1,2),(3,4)", "(2,4),(1,3,5)", "2,4,1,3,5"],
+        correct_ru: ["(2,1),(2,3),(2,5),(4,1),(4,3),(4,5)"],
+        correct_kz: ["(2,1),(2,3),(2,5),(4,1),(4,3),(4,5)"]
+    },
+    {
+        text_ru: "В каких версиях возможно как статическое, так и динамическое управление памятью?",
+        text_kz: "Жадыны статикалық басқарумен қатар динамикалық басқару қай нұсқаларда мүмкін?",
+        options_ru: ["Только SQL Server 6.5", "SQL Server 7.0 и SQL Server 2000", "Только SQL Server 2000 Enterprise", "SQL Server 6.0", "Только MSDE"],
+        options_kz: ["Тек SQL Server 6.5", "SQL Server 7.0 және SQL Server 2000", "Тек SQL Server 2000 Enterprise", "SQL Server 6.0", "Тек MSDE"],
+        correct_ru: ["SQL Server 7.0 и SQL Server 2000"],
+        correct_kz: ["SQL Server 7.0 және SQL Server 2000"]
+    },
+    {
+        text_ru: "Какой порт используется по умолчанию для SQL Server 2000?",
+        text_kz: "SQL Server 2000 үшін әдепкі бойынша (по умолчанию) қай порт пайдаланылады?",
+        options_ru: ["80", "1433", "1521", "8080", "443"],
+        options_kz: ["80", "1433", "1521", "8080", "443"],
+        correct_ru: ["1433"],
+        correct_kz: ["1433"]
+    },
+    {
+        text_ru: "Что используется для выборки данных с целью вывода на экран или размещения в отчете?",
+        text_kz: "Экранға шығару немесе есепке орналастыру мақсатында мәліметтерді таңдап алу үшін не қолданылады?",
+        options_ru: ["Транзакции обновления", "Транзакции выборки", "DDL-команды", "Удаление схем", "Блокировка"],
+        options_kz: ["жаңарту транзакциялары", "бөліп алу транзакциялары", "DDL командалары", "схемаларды өшіру", "бұғаттау"],
+        correct_ru: ["Транзакции выборки"],
+        correct_kz: ["бөліп алу транзакциялары"]
+    },
+    {
+        text_ru: "Для обновления баз данных SQL Server 6.5 до SQL Server 2000 предназначен какой мастер?",
+        text_kz: "SQL Server 6.5 базаларын SQL Server 2000-ге дейін жаңартуды орындау үшін қай шебер (мастер) арналған?",
+        options_ru: ["Setup Wizard", "Upgrade Wizard", "Database Creation Wizard", "Import/Export Wizard", "Configure Wizard"],
+        options_kz: ["Setup Wizard", "Upgrade Wizard", "Database Creation Wizard", "Import/Export Wizard", "Configure Wizard"],
+        correct_ru: ["Upgrade Wizard"],
+        correct_kz: ["Upgrade Wizard"]
+    },
+    {
+        text_ru: "Что используется для группировки пользователей с целью упрощения управления их правами доступа к объектам?",
+        text_kz: "Пайдаланушылардың объектілерге рұқсат құқықтарын басқаруды жеңілдету мақсатында оларды топтастыру үшін не қолданылады?",
+        options_ru: ["Системные индексы", "Пользовательские роли", "Триггеры", "Внешние ключи", "Системные вызовы"],
+        options_kz: ["жүйелік индекстер", "пайдаланушылық рольдер", "триггерлер", "сыртқы кілттер", "жүйелік выолар"],
+        correct_ru: ["Пользовательские роли"],
+        correct_kz: ["пайдаланушылық рольдер"]
+    },
+    {
+        text_ru: "Каким будет подмножество S={(x,y)|x∈D1,y∈D2, и x=2}, отсортированное по условию из результата декартова произведения?",
+        text_kz: "Декарттық көбейтінді нәтижесінен S={(x,y)|x∈D1,y∈D2, және x=2 шарты бойынша сұрыпталған ішкі жиын қандай болады?",
+        options_ru: ["(2,1),(2,3),(2,5)", "(4,1),(4,3)", "(2,1)", "(1,2)", "Пустое множество"],
+        options_kz: ["(2,1),(2,3),(2,5)", "(4,1),(4,3)", "(2,1)", "(1,2)", "Бос жиын"],
+        correct_ru: ["(2,1),(2,3),(2,5)"],
+        correct_kz: ["(2,1),(2,3),(2,5)"]
+    },
+    {
+        text_ru: "Сколько типов учетных записей (учетные записи) указывается для запуска служб (сервисов)?",
+        text_kz: "Қызметтерді (сервистерді) іске қосу үшін тіркелгілердің (учетные записи) неше түрі көрсетіледі?",
+        options_ru: ["2 типа", "3 типа", "4 типа", "5 типов", "1 тип"],
+        options_kz: ["2 түрі", "3 түрі", "4 түрі", "5 түрі", "1 түрі"],
+        correct_ru: ["3 типа"],
+        correct_kz: ["3 түрі"]
+    },
+    {
+        text_ru: "Сколько минимум дискового пространства требуется для минимальной установки SQL Server 2000?",
+        text_kz: "SQL Server 2000 минималды орнатылуы үшін кемінде қанша дискілік жады қажет?",
+        options_ru: ["32 Мбайт", "65 Мбайт", "170 Мбайт", "180 Мбайт", "500 Мбайт"],
+        options_kz: ["32 Мбайт", "65 Мбайт", "170 Мбайт", "180 Мбайт", "500 Мбайт"],
+        correct_ru: ["65 Мбайт"],
+        correct_kz: ["65 Мбайт"]
+    },
+    {
+        text_ru: "Сколько минимум дискового пространства требуется для полной (Full) установки SQL Server 2000?",
+        text_kz: "SQL Server 2000 толық (Full) орнатылуы үшін кемінде қанша дискілік жады қажет?",
+        options_ru: ["65 Мбайт", "170 Мбайт", "180 Мбайт", "250 Мбайт", "1 Гбайт"],
+        options_kz: ["65 Мбайт", "170 Мбайт", "180 Мбайт", "250 Мбайт", "1 Гбайт"],
+        correct_ru: ["180 Мбайт"],
+        correct_kz: ["180 Мбайт"]
+    },
+    {
+        text_ru: "Какой символ достаточно добавить перед именем, чтобы создать временную таблицу (temporary table)?",
+        text_kz: "Уақытша кесте (temporary table) құру үшін оның атауының алдына қай символды қосу жеткілікті?",
+        options_ru: ["@", "# или ##", "$", "&", "_"],
+        options_kz: ["@", "# немесе ##", "$", "&", "_"],
+        correct_ru: ["# или ##"],
+        correct_kz: ["# немесе ##"]
+    },
+    {
+        text_ru: "Какую программу нужно выполнить для запуска мастера установки SQL Server 2000?",
+        text_kz: "SQL Server 2000 орнату шеберін іске қосу үшін қай бағдарламаны орындау қажет?",
+        options_ru: ["Setup.exe", "Setupsql.exe", "Install.bat", "Autorun.exe", "MsiExec.exe"],
+        options_kz: ["Setup.exe", "Setupsql.exe", "Install.bat", "Autorun.exe", "MsiExec.exe"],
+        correct_ru: ["Setup.exe"],
+        correct_kz: ["Setup.exe"]
+    },
+    {
+        text_ru: "Сколько дискового пространства требуется для типичной (Typical) установки SQL Server 2000?",
+        text_kz: "SQL Server 2000 типтік (Typical) орнатылуы үшін қанша дискілік жады қажет?",
+        options_ru: ["65 Мбайт", "170 Мбайт", "180 Мбайт", "300 Мбайт", "50 Мбайт"],
+        options_kz: ["65 Мбайт", "170 Мбайт", "180 Мбайт", "300 Мбайт", "50 Мбайт"],
+        correct_ru: ["170 Мбайт"],
+        correct_kz: ["170 Мбайт"]
+    },
+    {
+        text_ru: "Сколько минимум оперативной памяти (ОЗУ) требуется для установки SQL Server 2000 (кроме Enterprise)?",
+        text_kz: "SQL Server 2000 (Enterprise-тан басқа) орнату үшін кемінде қанша жедел жады (ОЗУ) қажет?",
+        options_ru: ["16 Мбайт", "32 Мбайт", "64 Мбайт", "128 Мбайт", "256 Мбайт"],
+        options_kz: ["16 Мбайт", "32 Мбайт", "64 Мбайт", "128 Мбайт", "256 Мбайт"],
+        correct_ru: ["64 Мбайт"],
+        correct_kz: ["64 Мбайт"]
+    },
+    {
+        text_ru: "Сколько минимум оперативной памяти (ОЗУ) требуется для установки SQL Server 2000 Enterprise Edition?",
+        text_kz: "SQL Server 2000 Enterprise Edition орнату үшін кемінде қанша жедел жады (ОЗУ) қажет?",
+        options_ru: ["32 Мбайт", "64 Мбайт", "128 Мбайт", "256 Мбайт", "512 Мбайт"],
+        options_kz: ["32 Мбайт", "64 Мбайт", "128 Мбайт", "256 Мбайт", "512 Мбайт"],
+        correct_ru: ["128 Мбайт"],
+        correct_kz: ["128 Мбайт"]
+    },
+    {
+        text_ru: "Каким должен быть процессор по частоте и типу для установки SQL Server 2000?",
+        text_kz: "SQL Server 2000 орнату үшін процессор жиілігі мен түрі қай деңгейден төмен болмауы тиіс?",
+        options_ru: ["80486", "Pentium 166", "Pentium II 300", "Pentium 4", "Core 2 Duo"],
+        options_kz: ["80486", "Pentium 166", "Pentium II 300", "Pentium 4", "Core 2 Duo"],
+        correct_ru: ["Pentium 166"],
+        correct_kz: ["Pentium 166"]
+    },
+    {
+        text_ru: "Дана схема реляционной базы данных:\n`Student` (StudentID, FullName, GroupID)\n`Group` (GroupID, Speciality, Department)\nГде StudentID — первичный ключ таблицы студентов, а GroupID — первичный ключ таблицы групп и внешний ключ в таблице студентов.\nКакое ограничение реализует поле GroupID в таблице Student?",
+        text_kz: "Төмендегі реляциялық мәліметтер базасының схемасы берілген:\n`Student` (StudentID, FullName, GroupID)\n`Group` (GroupID, Speciality, Department)\nМұндағы StudentID — студенттер кестесінің бастапқы кілті (Primary Key), ал GroupID — топтар кестесінің бастапқы кілті және студенттер кестесіндегі сыртқы кілт (Foreign Key).\nStudent кестесіндегі GroupID өрісі қандай шектеуді жүзеге асырады?",
+        options_ru: ["Primary Key", "Unique Constraint", "Foreign Key", "Check Constraint", "Not Null Constraint"],
+        options_kz: ["Primary Key", "Unique Constraint", "Foreign Key", "Check Constraint", "Not Null Constraint"],
+        correct_ru: ["Foreign Key"],
+        correct_kz: ["Foreign Key"]
+    },
+    {
+        text_ru: "Дана таблица: Employees (EmployeeID, Department, Salary)\nКакой правильный SQL-запрос используется для вывода отделов, где средняя зарплата сотрудников превышает 500 000 тенге?",
+        text_kz: "Берілген кесте: Employees (EmployeeID, Department, Salary)\nӘр бөлімдегі (Department) қызметкерлердің орташа жалақысы 500 000 теңгеден жоғары болатын бөлімдерді шығару үшін қандай дұрыс SQL сұранысы қолданылады?",
+        options_ru: ["SELECT Department, AVG(Salary) FROM Employees WHERE AVG(Salary) > 500000 GROUP BY Department;", "SELECT Department, AVG(Salary) FROM Employees GROUP BY Department HAVING AVG(Salary) > 500000;", "SELECT Department, AVG(Salary) FROM Employees GROUP BY Department WHERE Salary > 500000;", "SELECT Department, AVG(Salary) FROM Employees HAVING Department AND AVG(Salary) > 500000;", "SELECT Department, AVG(Salary) FROM Employees GROUP BY Salary HAVING AVG(Department) > 500000;"],
+        options_kz: ["SELECT Department, AVG(Salary) FROM Employees WHERE AVG(Salary) > 500000 GROUP BY Department;", "SELECT Department, AVG(Salary) FROM Employees GROUP BY Department HAVING AVG(Salary) > 500000;", "SELECT Department, AVG(Salary) FROM Employees GROUP BY Department WHERE Salary > 500000;", "SELECT Department, AVG(Salary) FROM Employees HAVING Department AND AVG(Salary) > 500000;", "SELECT Department, AVG(Salary) FROM Employees GROUP BY Salary HAVING AVG(Department) > 500000;"],
+        correct_ru: ["SELECT Department, AVG(Salary) FROM Employees GROUP BY Department HAVING AVG(Salary) > 500000;"],
+        correct_kz: ["SELECT Department, AVG(Salary) FROM Employees GROUP BY Department HAVING AVG(Salary) > 500000;"]
+    },
+    {
+        text_ru: "Что означает буква «I» в акрониме ACID, описывающем свойства транзакции?",
+        text_kz: "Транзакцияның қасиеттерін сипаттайтын ACID акрониміндегі «I» әрпі нені білдіреді?",
+        options_ru: ["После завершения транзакции ее результаты навсегда сохраняются в системе.", "Результат нескольких одновременно выполняемых транзакций должен быть таким же, как если бы они выполнялись последовательно одна за другой.", "Транзакция либо выполняется полностью, либо не выполняется вообще.", "База данных всегда должна переходить из одного правильного (согласованного) состояния в другое правильное состояние.", "Во время транзакции данные должны быть полностью скрыты от других пользователей."],
+        options_kz: ["транзакция аяқталғаннан кейін оның нәтижелері жүйеде мәңгі сақталады.", "бір уақытта орындалатын бірнеше транзакциялардың нәтижесі олардың бірінен соң бірі тізбектеліп орындалғанымен бірдей болуы тиіс.", "транзакция я толығымен орындалады, я мүлдем орындалмайды.", "мәліметтер базасы әрқашан дұрыс (үйлесімді) күйден басқа дұрыс күйге өтуі тиіс.", "транзакция барысында деректер басқа пайдаланушылардан толығымен жасырылуы керек."],
+        correct_ru: ["Результат нескольких одновременно выполняемых транзакций должен быть таким же, как если бы они выполнялись последовательно одна за другой."],
+        correct_kz: ["бір уақытта орындалатын бірнеше транзакциялардың нәтижесі олардың бірінен соң бірі тізбектеліп орындалғанымен бірдей болуы тиіс."]
+    },
+    {
+        text_ru: "Если у нас есть две таблицы: Customers (Клиенты) и Orders (Заказы). Какой тип соединения (JOIN) нужно использовать в SQL, чтобы вывести как клиентов с заказами, так и клиентов без заказов (для которых поля заказа будут NULL)?",
+        text_kz: "Егер бізде екі кесте болса: Customers (Клиенттер) және Orders (Тапсырыстар). Тапсырысы бар клиенттерді де, сондай-ақ ешқандай тапсырыс жасамаған клиенттерді де (тапсырысы жоқтар үшін тапсырыс өрістері NULL болып) толық шығарып алу үшін SQL-де қандай қосылу (JOIN) түрін қолдану керек?",
+        options_ru: ["INNER JOIN", "LEFT OUTER JOIN", "RIGHT OUTER JOIN", "CROSS JOIN", "SELF JOIN"],
+        options_kz: ["INNER JOIN", "LEFT OUTER JOIN", "RIGHT OUTER JOIN", "CROSS JOIN", "SELF JOIN"],
+        correct_ru: ["LEFT OUTER JOIN"],
+        correct_kz: ["LEFT OUTER JOIN"]
+    },
+    {
+        text_ru: "Каким требованиям должна удовлетворять таблица для перехода во вторую нормальную форму (2NF) при проектировании базы данных?",
+        text_kz: "Мәліметтер базасын жобалау кезінде екінші қалыпты формаға (2NF) өту үшін кесте қандай талапты қанағаттандыруы тиіс?",
+        options_ru: ["Удовлетворять требованиям 1NF, и все атрибуты должны быть атомарными (неделимыми).", "Удовлетворять требованиям 1NF, и любой атрибут, не входящий в состав составного первичного ключа, должен полностью функционально зависеть от первичного ключа.", "Не должно быть транзитивных зависимостей (A → B → C).", "Не должно быть многозначных зависимостей (multivalued dependencies).", "В таблице должен быть только один первичный ключ."],
+        options_kz: ["1NF талаптарын қанағаттандыруы және барлық аттрибуттар атомарлы (бөлінбейтін) болуы тиіс.", "1NF талаптарын қанағаттандыруы және құрама кілттің (composite primary key) құрамына кірмейтін кез келген атрибут бастапқы кілтке толық функционалды тәуелді болуы тиіс.", "Транзитивті тәуелділіктер (A → B → C) болмауы тиіс.", "Көп мәнді тәуелділіктер (multivalued dependencies) болмауы тиіс.", "Кестеде тек бір ғана бастапқы кілт болуы керек."],
+        correct_ru: ["Удовлетворять требованиям 1NF, и любой атрибут, не входящий в состав составного первичного ключа, должен полностью функционально зависеть от первичного ключа."],
+        correct_kz: ["1NF талаптарын қанағаттандыруы және құрама кілттің (composite primary key) құрамына кірмейтін кез келген атрибут бастапқы кілтке толық функциональды тәуелді болуы тиіс."]
+    },
+    {
+        text_ru: "Каково главное условие для выполнения операции «Объединение» между двумя отношениями (таблицами) в реляционной алгебре?",
+        text_kz: "Реляциялық алгебрадағы екі қатынастың (кестенің) арасындағы «Бірігу» операциясы орындалуы үшін басты шарт қандай?",
+        options_ru: ["Количество атрибутов отношений и их домены должны быть одинаковыми.", "Одно из отношений обязательно должно быть пустым.", "В обоих отношениях обязательно должны быть одинаковые первичные ключи.", "Количество строк первого отношения должно быть равно количеству строк второго отношения.", "Правильного ответа нет"],
+        options_kz: ["қатынастардың атрибуттарының саны мен олардың домендері бірдей болуы тиіс.", "қатынастардың біреуі міндетті түрде бос болуы керек.", "екі қатынаста да бірдей бастапқы кілттер міндетті түрде болуы тиіс.", "бірінші қатынастың жолдар саны екінші қатынастың жолдар санына тең болуы шарт.", "дұрыс жауап жоқ"],
+        correct_ru: ["Количество атрибутов отношений и их домены должны быть одинаковыми."],
+        correct_kz: ["қатынастардың атрибуттарының саны мен олардың домендері бірдей болуы тиіс."]
+    },
+    {
+        text_ru: "Какое значение вернется в результате следующего SQL-запроса?\nSELECT LENGTH(TRIM(' Kazakhstan University '));",
+        text_kz: "Төмендегі SQL сұранысының нәтижесінде қандай мән қайтарылады?\nSELECT LENGTH(TRIM(' Kazakhstan University '));",
+        options_ru: ["27", "21", "24", "10", "19"],
+        options_kz: ["27", "21", "24", "10", "19"],
+        correct_ru: ["21"],
+        correct_kz: ["21"]
+    },
+    {
+        text_ru: "В чем главное преимущество использования индекса B-Tree (B-дерева) в базе данных?",
+        text_kz: "Мәліметтер базасында B-Tree (B-ағашы) индексін қолданудың негізгі артықшылығы неде?",
+        options_ru: ["Значительно уменьшает физический объем базы данных.", "Безгранично увеличивает скорость добавления новых строк (INSERT) в таблицу.", "Значительно увеличивает скорость поиска (SELECT), сортировки (ORDER BY) и диапазонных запросов (BETWEEN, <, >).", "Автоматически устанавливает уровень изоляции транзакций на Serializable.", "Автоматически удаляет дубликаты (duplicates) строк в таблице."],
+        options_kz: ["Мәліметтер базасының физикалық көлемін айтарлықтай азайтады.", "Кестеге жаңа жолдарды (INSERT) қосу жылдамдығын шексіз арттырады.", "Іздеу (SELECT), сұрыптау (ORDER BY) және ауқымды сұраныстардың (BETWEEN, <, <) жылдамдығын едәуір арттырады.", "Транзакциялардың оқшаулану деңгейін автоматты түрде Serializable етеді.", "Кестедегі қайталанатын жолдарды (duplicates) автоматты түрде жояды."],
+        correct_ru: ["Значительно увеличивает скорость поиска (SELECT), сортировки (ORDER BY) и диапазонных запросов (BETWEEN, <, >)."],
+        correct_kz: ["Іздеу (SELECT), сұрыптау (ORDER BY) және ауқымды сұраныстардың (BETWEEN, <, <) жылдамдығын едәуір арттырады."]
+    },
+    {
+        text_ru: "Какой из следующих SQL-запросов правильно работает для нахождения имени сотрудника с самой высокой зарплатой? (Таблица: Staff (Name, Salary))",
+        text_kz: "Ең үлкен жалақы алатын қызметкердің аты-жөнін табу үшін келесі SQL сұраныстарының қайсысы дұрыс жұмыс істейді? (Кесте: Staff (Name, Salary))",
+        options_ru: ["SELECT Name FROM Staff WHERE Salary = MAX(Salary);", "SELECT Name FROM Staff WHERE Salary = (SELECT MAX(Salary) FROM Staff);", "SELECT Name FROM Staff ORDER BY Salary ASC LIMIT 1;", "SELECT MAX(Name) FROM Staff WHERE Salary;", "SELECT Name FROM Staff GROUP BY Salary;"],
+        options_kz: ["SELECT Name FROM Staff WHERE Salary = MAX(Salary);", "SELECT Name FROM Staff WHERE Salary = (SELECT MAX(Salary) FROM Staff);", "SELECT Name FROM Staff ORDER BY Salary ASC LIMIT 1;", "SELECT MAX(Name) FROM Staff WHERE Salary;", "SELECT Name FROM Staff GROUP BY Salary;"],
+        correct_ru: ["SELECT Name FROM Staff WHERE Salary = (SELECT MAX(Salary) FROM Staff);"],
+        correct_kz: ["SELECT Name FROM Staff WHERE Salary = (SELECT MAX(Salary) FROM Staff);"]
+    },
+    {
+        text_ru: "Какой из следующих относится к документо-ориентированному типу NoSQL базы данных?",
+        text_kz: "Төмендегілердің қайсысы NoSQL мәліметтер базасының Құжатқа бағытталған түріне жатады?",
+        options_ru: ["MySQL", "PostgreSQL", "Oracle Database", "MongoDB", "SQLite"],
+        options_kz: ["MySQL", "PostgreSQL", "Oracle Database", "MongoDB", "SQLite"],
+        correct_ru: ["MongoDB"],
+        correct_kz: ["MongoDB"]
+    },
+    {
+        text_ru: "Найдите SQL-эквивалент следующего выражения реляционной алгебры:\nσ {price > 50000} (Products)",
+        text_kz: "Төмендегі реляциялық алгебра өрнегінің SQL эквивалентін табыңыз:\nσ {price > 50000} (Products)",
+        options_ru: ["SELECT * FROM Products WHERE price > 50000;", "SELECT price FROM Products HAVING price > 50000;", "PROJECT Products WHERE price > 50000;", "SELECT * FROM Products GROUP BY price > 50000;", "FILTER Products BY price > 50000;"],
+        options_kz: ["SELECT * FROM Products WHERE price > 50000;", "SELECT price FROM Products HAVING price > 50000;", "PROJECT Products WHERE price > 50000;", "SELECT * FROM Products GROUP BY price > 50000;", "FILTER Products BY price > 50000;"],
+        correct_ru: ["SELECT * FROM Products WHERE price > 50000;"],
+        correct_kz: ["SELECT * FROM Products WHERE price > 50000;"]
+    },
+    {
+        text_ru: "«Computer Science» мамандығында оқитын және GPA балы 3.5-тен жоғары барлық студенттердің аты-жөні мен GPA көрсеткішін шығаратын ДҰРЫС SQL сұранысын таңдаңыз:",
+        text_kz: "«Computer Science» мамандығында оқитын және GPA балы 3.5-тен жоғары барлық студенттердің аты-жөні мен GPA көрсеткішін шығаратын ДҰРЫС SQL сұранысын таңдаңыз:",
+        image: "images/q77.png", // <-- ДОБАВЛЕНА КАРТИНКА (Таблица Students)
         options_ru: [
-            "Поле, которое может содержать NULL значения",
-            "Поле или набор полей, уникально идентифицирующих каждую строку таблицы",
-            "Поле, которое ссылается на другую таблицу",
-            "Инструмент для создания резервных копий"
+            "SELECT name, gpa FROM Students WHERE major = 'Computer Science' AND gpa > 3.5;",
+            "SELECT name, gpa FROM Students WHERE major = 'Computer Science' OR gpa > 3.5;",
+            "SELECT name, gpa FROM Students HAVING major = 'Computer Science' AND gpa > 3.5;",
+            "SELECT * FROM Students GROUP BY major HAVING gpa > 3.5;",
+            "UPDATE Students SET gpa = 3.5 WHERE major = 'Computer Science';"
         ],
         options_kz: [
-            "NULL мәндерді қамти алатын өріс",
-            "Кестенің әр жолын бірегей түрде анықтайтын өріс немесе өрістер жиынтығы",
-            "Басқа кестеге сілтеме жасайтын өріс",
-            "Резервтік көшірмелерді жасау құралы"
+            "SELECT name, gpa FROM Students WHERE major = 'Computer Science' AND gpa > 3.5;",
+            "SELECT name, gpa FROM Students WHERE major = 'Computer Science' OR gpa > 3.5;",
+            "SELECT name, gpa FROM Students HAVING major = 'Computer Science' AND gpa > 3.5;",
+            "SELECT * FROM Students GROUP BY major HAVING gpa > 3.5;",
+            "UPDATE Students SET gpa = 3.5 WHERE major = 'Computer Science';"
         ],
-        correct_ru: "Поле или набор полей, уникально идентифицирующих каждую строку таблицы",
-        correct_kz: "Кестенің әр жолын бірегей түрде анықтайтын өріс немесе өрістер жиынтығы"
+        correct_ru: ["SELECT name, gpa FROM Students WHERE major = 'Computer Science' AND gpa > 3.5;"],
+        correct_kz: ["SELECT name, gpa FROM Students WHERE major = 'Computer Science' AND gpa > 3.5;"]
+    },
+    {
+        text_ru: "Студенттерді оқуға түскен жылы (‘enrollment_year’) бойынша топтастырып, әр жылғы студенттердің орташа GPA балын табатын SQL сұранысын көрсетіңіз:",
+        text_kz: "Студенттерді оқуға түскен жылы (‘enrollment_year’) бойынша топтастырып, әр жылғы студенттердің орташа GPA балын табатын SQL сұранысын көрсетіңіз:",
+        image: "images/q78.png", // <-- ДОБАВЛЕНА КАРТИНКА (Таблица Students)
+        options_ru: [
+            "SELECT enrollment_year, AVG(gpa) FROM Students GROUP BY enrollment_year;",
+            "SELECT enrollment_year, SUM(gpa) FROM Students WHERE gpa > 3.0;",
+            "SELECT enrollment_year, COUNT(gpa) FROM Students ORDER BY enrollment_year;",
+            "SELECT AVG(gpa) FROM Students WHERE enrollment_year GROUP BY name;",
+            "SELECT enrollment_year, MAX(gpa) FROM Students HAVING AVG(gpa) > 3.0;"
+        ],
+        options_kz: [
+            "SELECT enrollment_year, AVG(gpa) FROM Students GROUP BY enrollment_year;",
+            "SELECT enrollment_year, SUM(gpa) FROM Students WHERE gpa > 3.0;",
+            "SELECT enrollment_year, COUNT(gpa) FROM Students ORDER BY enrollment_year;",
+            "SELECT AVG(gpa) FROM Students WHERE enrollment_year GROUP BY name;",
+            "SELECT enrollment_year, MAX(gpa) FROM Students HAVING AVG(gpa) > 3.0;"
+        ],
+        correct_ru: ["SELECT enrollment_year, AVG(gpa) FROM Students GROUP BY enrollment_year;"],
+        correct_kz: ["SELECT enrollment_year, AVG(gpa) FROM Students GROUP BY enrollment_year;"]
+    },
+    {
+        text_ru: "Бөлім идентификаторы (‘department_id’) 10-ға тең қызметкерлердің негізгі жалақысы мен бонусын қосқандағы ЖАЛПЫ табысын (‘total_income’) шығаратын SQL сұранысы:",
+        text_kz: "Бөлім идентификаторы (‘department_id’) 10-ға тең қызметкерлердің негізгі жалақысы мен бонусын қосқандағы ЖАЛПЫ табысын (‘total_income’) шығаратын SQL сұранысы:",
+        image: "images/q79.png", // <-- ДОБАВЛЕНА КАРТИНКА (Таблица Employees)
+        options_ru: [
+            "SELECT full_name, (salary + bonus) AS total_income FROM Employees WHERE department_id = 10;",
+            "SELECT full_name, SUM(salary, bonus) FROM Employees WHERE department_id = 10;",
+            "SELECT full_name, salary + bonus FROM Employees HAVING department_id = 10;",
+            "SELECT full_name, COUNT(salary) FROM Employees GROUP BY department_id;",
+            "SELECT total_income FROM Employees WHERE salary > 400000;"
+        ],
+        options_kz: [
+            "SELECT full_name, (salary + bonus) AS total_income FROM Employees WHERE department_id = 10;",
+            "SELECT full_name, SUM(salary, bonus) FROM Employees WHERE department_id = 10;",
+            "SELECT full_name, salary + bonus FROM Employees HAVING department_id = 10;",
+            "SELECT full_name, COUNT(salary) FROM Employees GROUP BY department_id;",
+            "SELECT total_income FROM Employees WHERE salary > 400000;"
+        ],
+        correct_ru: ["SELECT full_name, (salary + bonus) AS total_income FROM Employees WHERE department_id = 10;"],
+        correct_kz: ["SELECT full_name, (salary + bonus) AS total_income FROM Employees WHERE department_id = 10;"]
+    },
+    {
+        text_ru: "Бонусы белгіленбеген (яғни ‘bonus’ өрісі ‘NULL’ болып тұрған) қызметкерлерді табу үшін қай SQL шарты ДҰРЫС?",
+        text_kz: "Бонусы белгіленбеген (яғни ‘bonus’ өрісі ‘NULL’ болып тұрған) қызметкерлерді табу үшін қай SQL шарты ДҰРЫС?",
+        image: "images/q80.png", // <-- ДОБАВЛЕНА КАРТИНКА (Таблица Employees)
+        options_ru: [
+            "SELECT * FROM Employees WHERE bonus IS NULL;",
+            "SELECT * FROM Employees WHERE bonus = NULL;",
+            "SELECT * FROM Employees WHERE bonus = 'None';",
+            "SELECT * FROM Employees WHERE bonus = 0;",
+            "SELECT * FROM Employees HAVING bonus IS EMPTY;"
+        ],
+        options_kz: [
+            "SELECT * FROM Employees WHERE bonus IS NULL;",
+            "SELECT * FROM Employees WHERE bonus = NULL;",
+            "SELECT * FROM Employees WHERE bonus = 'None';",
+            "SELECT * FROM Employees WHERE bonus = 0;",
+            "SELECT * FROM Employees HAVING bonus IS EMPTY;"
+        ],
+        correct_ru: ["SELECT * FROM Employees WHERE bonus IS NULL;"],
+        correct_kz: ["SELECT * FROM Employees WHERE bonus IS NULL;"]
+    },
+    {
+        text_ru: "Багасы (‘price’) 20 000 теңгеден 200 000 теңгеге дейінгі диапазондағы тауарлардың тізімін шығару үшін қай сұраныс оңтайлы?",
+        text_kz: "Багасы (‘price’) 20 000 теңгеден 200 000 теңгеге дейінгі диапазондағы тауарлардың тізімін шығару үшін қай сұраныс оңтайлы?",
+        image: "images/q81.png", // <-- ДОБАВЛЕНА КАРТИНКА (Таблица Products)
+        options_ru: [
+            "SELECT * FROM Products WHERE price BETWEEN 20000 AND 200000;",
+            "SELECT * FROM Products WHERE price IN (20000, 200000);",
+            "SELECT * FROM Products WHERE price >= 20000 OR price <= 200000;",
+            "SELECT * FROM Products HAVING price BETWEEN 20000 AND 200000;",
+            "SELECT * FROM Products WHERE price LIKE '20000%';"
+        ],
+        options_kz: [
+            "SELECT * FROM Products WHERE price BETWEEN 20000 AND 200000;",
+            "SELECT * FROM Products WHERE price IN (20000, 200000);",
+            "SELECT * FROM Products WHERE price >= 20000 OR price <= 200000;",
+            "SELECT * FROM Products HAVING price BETWEEN 20000 AND 200000;",
+            "SELECT * FROM Products WHERE price LIKE '20000%';"
+        ],
+        correct_ru: ["SELECT * FROM Products WHERE price BETWEEN 20000 AND 200000;"],
+        correct_kz: ["SELECT * FROM Products WHERE price BETWEEN 20000 AND 200000;"]
+    },
+    {
+        text_ru: "Қоймада тауар таусылған (‘stock = 0’) өнімдердің атауын (‘title’) және бағасын шығаратын сұраныс:",
+        text_kz: "Қоймада тауар таусылған (‘stock = 0’) өнімдердің атауын (‘title’) және бағасын шығаратын сұраныс:",
+        image: "images/q82.png", // <-- ДОБАВЛЕНА КАРТИНКА (Таблица Products)
+        options_ru: [
+            "SELECT title, price FROM Products WHERE stock = 0;",
+            "SELECT title, price FROM Products WHERE stock IS NULL;",
+            "SELECT title, price FROM Products HAVING stock = 0;",
+            "DELETE FROM Products WHERE stock = 0;",
+            "SELECT title, MIN(price) FROM Products WHERE stock = 0;"
+        ],
+        options_kz: [
+            "SELECT title, price FROM Products WHERE stock = 0;",
+            "SELECT title, price FROM Products WHERE stock IS NULL;",
+            "SELECT title, price FROM Products HAVING stock = 0;",
+            "DELETE FROM Products WHERE stock = 0;",
+            "SELECT title, MIN(price) FROM Products WHERE stock = 0;"
+        ],
+        correct_ru: ["SELECT title, price FROM Products WHERE stock = 0;"],
+        correct_kz: ["SELECT title, price FROM Products WHERE stock = 0;"]
+    },
+    {
+        text_ru: "SQL тілінде кестеге ЖАҢА ЖОЛ (жазба) қосу үшін қандай DML операторы қолданылады?",
+        text_kz: "SQL тілінде кестеге ЖАҢА ЖОЛ (жазба) қосу үшін қандай DML операторы қолданылады?",
+        options_ru: [
+            "ADD ROW table_name VALUES (...);",
+            "INSERT INTO table_name VALUES (...);",
+            "UPDATE table_name SET (...);",
+            "CREATE ROW IN table_name (...);",
+            "APPEND TO table_name VALUES (...);"
+        ],
+        options_kz: [
+            "ADD ROW table_name VALUES (...);",
+            "INSERT INTO table_name VALUES (...);",
+            "UPDATE table_name SET (...);",
+            "CREATE ROW IN table_name (...);",
+            "APPEND TO table_name VALUES (...);"
+        ],
+        correct_ru: ["INSERT INTO table_name VALUES (...);"],
+        correct_kz: ["INSERT INTO table_name VALUES (...);"]
+    },
+    {
+        text_ru: "Сатылымдар кестесінде Өнім және Сома өрістері бар. Әр өнім бойынша жалпы сатылым сомасын есептеп, тек жалпы сомасы 1 000 000 теңгеден асатын өнімдерді шығару керек. Дұрыс SQL сұранысын таңдаңыз.",
+        text_kz: "Сатылымдар кестесінде Өнім және Сома өрістері бар. Әр өнім бойынша жалпы сатылым сомасын есептеп, тек жалпы сомасы 1 000 000 теңгеден асатын өнімдерді шығару керек. Дұрыс SQL сұранысын таңдаңыз.",
+        options_ru: [
+            "SELECT Өнім, SUM(Сома) FROM Сатылымдар WHERE SUM(Сома) > 1000000 GROUP BY Өнім;",
+            "SELECT Өнім, SUM(Сома) FROM Сатылымдар GROUP BY Өнім HAVING SUM(Сома) > 1000000;",
+            "SELECT Өнім, SUM(Сома) FROM Сатылымдар GROUP BY Өнім WHERE Сома > 1000000;",
+            "SELECT Өнім, SUM(Сома) FROM Сатылымдар HAVING Сома > 1000000 GROUP BY Өнім;",
+            "SELECT Өнім, SUM(Сома) FROM Сатылымдар ORDER BY SUM(Сома) > 1000000;"
+        ],
+        options_kz: [
+            "SELECT Өнім, SUM(Сома) FROM Сатылымдар WHERE SUM(Сома) > 1000000 GROUP BY Өнім;",
+            "SELECT Өнім, SUM(Сома) FROM Сатылымдар GROUP BY Өнім HAVING SUM(Сома) > 1000000;",
+            "SELECT Өнім, SUM(Сома) FROM Сатылымдар GROUP BY Өнім WHERE Сома > 1000000;",
+            "SELECT Өнім, SUM(Сома) FROM Сатылымдар HAVING Сома > 1000000 GROUP BY Өнім;",
+            "SELECT Өнім, SUM(Сома) FROM Сатылымдар ORDER BY SUM(Сома) > 1000000;"
+        ],
+        correct_ru: ["SELECT Өнім, SUM(Сома) FROM Сатылымдар GROUP BY Өнім HAVING SUM(Сома) > 1000000;"],
+        correct_kz: ["SELECT Өнім, SUM(Сома) FROM Сатылымдар GROUP BY Өнім HAVING SUM(Сома) > 1000000;"]
+    },
+    {
+        text_ru: "Қолданушы Айгүл-ге Сатылымдар кестесінен тек оқу (SELECT) құқығын беру, бірақ өзгертуге (INSERT/UPDATE/DELETE) рұқсат бермеу үшін қандай SQL командасы қолданылады?",
+        text_kz: "Қолданушы Айгүл-ге Сатылымдар кестесінен тек оқу (SELECT) құқығын беру, бірақ өзгертуге (INSERT/UPDATE/DELETE) рұқсат бермеу үшін қандай SQL командасы қолданылады?",
+        options_ru: [
+            "GRANT SELECT ON Сатылымдар TO Айгүл;",
+            "REVOKE SELECT ON Сатылымдар FROM Айгүл;",
+            "CREATE USER Айгүл WITH PASSWORD '...';",
+            "ALTER TABLE Сатылымдар ADD CONSTRAINT ...;",
+            "DENY SELECT ON Сатылымдар TO Айгүл;"
+        ],
+        options_kz: [
+            "GRANT SELECT ON Сатылымдар TO Айгүл;",
+            "REVOKE SELECT ON Сатылымдар FROM Айгүл;",
+            "CREATE USER Айгүл WITH PASSWORD '...';",
+            "ALTER TABLE Сатылымдар ADD CONSTRAINT ...;",
+            "DENY SELECT ON Сатылымдар TO Айгүл;"
+        ],
+        correct_ru: ["GRANT SELECT ON Сатылымдар TO Айгүл;"],
+        correct_kz: ["GRANT SELECT ON Сатылымдар TO Айгүл;"]
+    },
+    {
+        text_ru: "Қызметкерлер кестесінде Басшы_ID өрісі бар. Кейбір қызметкерлердің басшысы жоқ (олар бас директор). Басшысы жоқ қызметкерлерді табу үшін дұрыс WHERE шартын таңдаңыз.",
+        text_kz: "Қызметкерлер кестесінде Басшы_ID өрісі бар. Кейбір қызметкерлердің басшысы жоқ (олар бас директор). Басшысы жоқ қызметкерлерді табу үшін дұрыс WHERE шартын таңдаңыз.",
+        options_ru: [
+            "WHERE Басшы_ID = NULL",
+            "WHERE Басшы_ID IS NULL",
+            "WHERE Басшы_ID = 0",
+            "WHERE Басшы_ID != NULL",
+            "WHERE Басшы_ID <> \"B\""
+        ],
+        options_kz: [
+            "WHERE Басшы_ID = NULL",
+            "WHERE Басшы_ID IS NULL",
+            "WHERE Басшы_ID = 0",
+            "WHERE Басшы_ID != NULL",
+            "WHERE Басшы_ID <> \"B\""
+        ],
+        correct_ru: ["WHERE Басшы_ID IS NULL"],
+        correct_kz: ["WHERE Басшы_ID IS NULL"]
+    },
+    {
+        text_ru: "Банктік жүйеде ақша аудару кезінде бір шоттан ақша шешіліп, екіншісіне қосылуы керек. Егер жүйе ақшаны бірінші шоттан шешіп үлгерген соң, ал екіншісіне қоспас бұрын істен шықса, ақша «жоғалып» кетпеуі үшін ACID қасиеттерінің қайсысы жауапты?",
+        text_kz: "Банктік жүйеде ақша аудару кезінде бір шоттан ақша шешіліп, екіншісіне қосылуы керек. Егер жүйе ақшаны бірінші шоттан шешіп үлгерген соң, ал екіншісіне қоспас бұрын істен шықса, ақша «жоғалып» кетпеуі үшін ACID қасиеттерінің қайсысы жауапты?",
+        options_ru: ["Atomicity", "Consistency", "Isolation", "Durability", "Scalability"],
+        options_kz: ["Atomicity", "Consistency", "Isolation", "Durability", "Scalability"],
+        correct_ru: ["Atomicity"],
+        correct_kz: ["Atomicity"]
+    },
+    {
+        text_ru: "Мәліметтер базасының үш деңгейлі архитектурасында (ANSI/SPARC моделі) **Концептуалды деңгей** (Conceptual Level) нені сипаттайды?",
+        text_kz: "Мәліметтер базасының үш деңгейлі архитектурасында (ANSI/SPARC моделі) **Концептуалды деңгей** (Conceptual Level) нені сипаттайды?",
+        options_ru: [
+            "Деректердің дискідегі физикалық байт түрінде сақталуын",
+            "Бүкіл ұйымның немесе кәсіпорынның барлық деректерін, олардың өзара байланыстары мен шектеулерін тұтас және логикалық тұрғыдан сипаттайды.",
+            "Әрбір жеке пайдаланушының экранда көретін виртуалды кестелерін",
+            "Желілік протоколдар мен маршрутизацияны",
+            "Триггерлер мен процедуралардың байттық кодын"
+        ],
+        options_kz: [
+            "Деректердің дискідегі физикалық байт түрінде сақталуын",
+            "Бүкіл ұйымның немесе кәсіпорынның барлық деректерін, олардың өзара байланыстары мен шектеулерін тұтас және логикалық тұрғыдан сипаттайды.",
+            "Әрбір жеке пайдаланушының экранда көретін виртуалды кестелерін",
+            "Желілік протоколдар мен маршрутизацияны",
+            "Триггерлер мен процедуралардың байттық кодын"
+        ],
+        correct_ru: ["Бүкіл ұйымның немесе кәсіпорынның барлық деректерін, олардың өзара байланыстары мен шектеулерін тұтас және логикалық тұрғыдан сипаттайды."],
+        correct_kz: ["Бүкіл ұйымның немесе кәсіпорынның барлық деректерін, олардың өзара байланыстары мен шектеулерін тұтас және логикалық тұрғыдан сипаттайды."]
+    },
+    {
+        text_ru: "SQL тіліндегі 'GROUP BY' клаузуласымен бірге қолданылатын **агрегаттық функциялардың** ішіне 'NULL' мәндері қалай әсер етеді?",
+        text_kz: "SQL тіліндегі 'GROUP BY' клаузуласымен бірге қолданылатын **агрегаттық функциялардың** ішіне 'NULL' мәндері қалай әсер етеді?",
+        options_ru: [
+            "NULL мәндері барлық агрегаттық функциялармен есептеу кезінде ескерілмейді, тек COUNT(*) барлық жолдарды санайды.",
+            "NULL мәні автоматты түрде 0-ге теңестіріледі.",
+            "Барлық агрегаттық функциялар қате (Error) береді.",
+            "NULL мәндері нәтижені міндетті түрде NULL роліне айналдырады.",
+            "COUNT функциясы NULL мәндерін ғана санайды."
+        ],
+        options_kz: [
+            "NULL мәндері барлық агрегаттық функциялармен есептеу кезінде ескерілмейді, тек COUNT(*) барлық жолдарды санайды.",
+            "NULL мәні автоматты түрде 0-ге теңестіріледі.",
+            "Барлық агрегаттық функциялар қате (Error) береді.",
+            "NULL мәндері нәтижені міндетті түрде NULL роліне айналдырады.",
+            "COUNT функциясы NULL мәндерін ғана санайды."
+        ],
+        correct_ru: ["NULL мәндері барлық агрегаттық функциялармен есептеу кезінде ескерілмейді, тек COUNT(*) барлық жолдарды санайды."],
+        correct_kz: ["NULL мәндері барлық агрегаттық функциялармен есептеу кезінде ескерілмейді, тек COUNT(*) барлық жолдарды санайды."]
+    },
+    {
+        text_ru: "Реляциялық мәліметтер базасындағы «Каскадты өшіру» ережесі жұмыс істеген кезде не орындалады?",
+        text_kz: "Реляциялық мәліметтер базасындағы «Каскадты өшіру» ережесі жұмыс істеген кезде не орындалады?",
+        options_ru: [
+            "Ата-аналық кестедегі жазба өшірілгенде, оған сыртқы кілт арқылы байланысқан бала кестедегі барлық тәуелді жолдар автоматты түрде бірге өшіріледі.",
+            "Өшіру әрекетіне тыйым салынады.",
+            "Байланысқан жолдардың мәні NULL болып өзгереді.",
+            "База автоматты түрде архивтеледі.",
+            "Транзакция кері қайтарылады (ROLLBACK)."
+        ],
+        options_kz: [
+            "Ата-аналық кестедегі жазба өшірілгенде, оған сыртқы кілт арқылы байланысқан бала кестедегі барлық тәуелді жолдар автоматты түрде бірге өшіріледі.",
+            "Өшіру әрекетіне тыйым салынады.",
+            "Байланысқан жолдардың мәні NULL болып өзгереді.",
+            "База автоматты түрде архивтеледі.",
+            "Транзакция кері қайтарылады (ROLLBACK)."
+        ],
+        correct_ru: ["Ата-аналық кестедегі жазба өшірілгенде, оған сыртқы кілт арқылы байланысқан бала кестедегі барлық тәуелді жолдар автоматты түрде бірге өшіріледі."],
+        correct_kz: ["Ата-аналық кестедегі жазба өшірілгенде, оған сыртқы кілт арқылы байланысқан бала кестедегі барлық тәуелді жолдар автоматты түрде бірге өшіріледі."]
+    },
+    {
+        text_ru: "Төмендегі SQL сұранысының орындалу нәтижесінде қайтарылатын мәндерді анықтаңыз. Кестеде 5 жол бар: status өрісі 2 жолда 'Active', 2 жолда 'Pending', 1 жолда NULL. Сұраныс: SELECT COUNT(status), COUNT(*), COUNT(DISTINCT status) FROM Tasks;",
+        text_kz: "Төмендегі SQL сұранысының орындалу нәтижесінде қайтарылатын мәндерді анықтаңыз. Кестеде 5 жол бар: status өрісі 2 жолда 'Active', 2 жолда 'Pending', 1 жолда NULL. Сұраныс: SELECT COUNT(status), COUNT(*), COUNT(DISTINCT status) FROM Tasks;",
+        options_ru: [
+            "COUNT(status) = 4, COUNT(*) = 5, COUNT(DISTINCT status) = 2",
+            "COUNT(status) = 5, COUNT(*) = 5, COUNT(DISTINCT status) = 3",
+            "COUNT(status) = 4, COUNT(*) = 4, COUNT(DISTINCT status) = 2",
+            "COUNT(status) = 5, COUNT(*) = 5, COUNT(DISTINCT status) = 3",
+            "COUNT(status) = 4, COUNT(*) = 5, COUNT(DISTINCT status) = 3"
+        ],
+        options_kz: [
+            "COUNT(status) = 4, COUNT(*) = 5, COUNT(DISTINCT status) = 2",
+            "COUNT(status) = 5, COUNT(*) = 5, COUNT(DISTINCT status) = 3",
+            "COUNT(status) = 4, COUNT(*) = 4, COUNT(DISTINCT status) = 2",
+            "COUNT(status) = 5, COUNT(*) = 5, COUNT(DISTINCT status) = 3",
+            "COUNT(status) = 4, COUNT(*) = 5, COUNT(DISTINCT status) = 3"
+        ],
+        correct_ru: ["COUNT(status) = 4, COUNT(*) = 5, COUNT(DISTINCT status) = 2"],
+        correct_kz: ["COUNT(status) = 4, COUNT(*) = 5, COUNT(DISTINCT status) = 2"]
+    },
+    {
+        text_ru: "Екі SELECT сұранысын біріктіру берілген:\nSELECT city FROM Customers UNION SELECT city FROM Suppliers;\nЕгер Customers кестесінде 10 жол (барлығы 'Almaty'), ал Suppliers кестесінде 5 жол (3-еуі 'Almaty', 2-eуі 'Astana') болса, сұраныс нәтижесінде НЕШЕ ЖОЛ шығады?",
+        text_kz: "Екі SELECT сұранысын біріктіру берілген:\nSELECT city FROM Customers UNION SELECT city FROM Suppliers;\nЕгер Customers кестесінде 10 жол (барлығы 'Almaty'), ал Suppliers кестесінде 5 жол (3-еуі 'Almaty', 2-eуі 'Astana') болса, сұраныс нәтижесінде НЕШЕ ЖОЛ шығады?",
+        options_ru: ["2 жол ('Almaty', 'Astana')", "15 жол", "13 жол", "1 жол ('Almaty')", "12 жол"],
+        options_kz: ["2 жол ('Almaty', 'Astana')", "15 жол", "13 жол", "1 жол ('Almaty')", "12 жол"],
+        correct_ru: ["2 жол ('Almaty', 'Astana')"],
+        correct_kz: ["2 жол ('Almaty', 'Astana')"]
+    },
+    {
+        text_ru: "Кестеде А бағаны бар. Төмендегі SQL фрагменті берілген:\nSELECT * FROM TestTable WHERE A NOT IN (1, 2, NULL);\nЕгер кестеде A=1, A=2, A=3, A=NULL жолдары болса, сұраныс нәтижесінде қандай жолдар қайтарылады?",
+        text_kz: "Кестеде А бағаны бар. Төмендегі SQL фрагменті берілген:\nSELECT * FROM TestTable WHERE A NOT IN (1, 2, NULL);\nЕгер кестеде A=1, A=2, A=3, A=NULL жолдары болса, сұраныс нәтижесінде қандай жолдар қайтарылады?",
+        options_ru: [
+            "Ешқандай жол қайтарылмайды (Бос нәтиже / 0 жол)",
+            "Тек A=3 жолы қайтарылады",
+            "A=3 және A=NULL жолдары қайтарылады",
+            "Тек A=NULL жолы қайтарылады",
+            "Барлық 4 жол қайтарылады"
+        ],
+        options_kz: [
+            "Ешқандай жол қайтарылмайды (Бос нәтиже / 0 жол)",
+            "Тек A=3 жолы қайтарылады",
+            "A=3 және A=NULL жолдары қайтарылады",
+            "Тек A=NULL жолы қайтарылады",
+            "Барлық 4 жол қайтарылады"
+        ],
+        correct_ru: ["Ешқандай жол қайтарылмайды (Бос нәтиже / 0 жол)"],
+        correct_kz: ["Ешқандай жол қайтарылмайды (Бос нәтиже / 0 жол)"]
+    },
+    {
+        text_ru: "Қатынас схемасы R(A, B, C, D, E) және функционалдық тәуелділіктер жиыны берілген: F = { A-> B, {A, C} -> D, D -> E }. Бастапқы құрама кілт — {A, C}. Бұл қатынас қай қалыпты форма талабын БҰЗЫП тұр?",
+        text_kz: "Қатынас схемасы R(A, B, C, D, E) және функционалдық тәуелділіктер жиыны берілген: F = { A-> B, {A, C} -> D, D -> E }. Бастапқы құрама кілт — {A, C}. Бұл қатынас қай қалыпты форма талабын БҰЗЫП тұр?",
+        options_ru: [
+            "2NF талабын бұзып тұр, өйткені A-> B; Tәуелділігі бастапқы құрама кілттің бір бөлігіне ішінара тәуелділік (partial dependency) тудырады.",
+            "3NF талабын ғана бұзып тұр, өйткені D -> E транзитивті тәуелділігі бар, ал 2NF толық орындалған.",
+            "1NF талабын бұзып тұр, өйткені А және С құрама кілт құрайды.",
+            "BCNF талабын ғана бұзып тұр, ал 3NF сақталған.",
+            "Бұл қатынас 4NF-те орналасқан, ешқандай ереже бұзылмаған."
+        ],
+        options_kz: [
+            "2NF талабын бұзып тұр, өйткені A-> B; Tәуелділігі бастапқы құрама кілттің бір бөлігіне ішінара тәуелділік (partial dependency) тудырады.",
+            "3NF талабын ғана бұзып тұр, өйткені D -> E транзитивті тәуелділігі бар, ал 2NF толық орындалған.",
+            "1NF талабын бұзып тұр, өйткені А және С құрама кілт құрайды.",
+            "BCNF талабын ғана бұзып тұр, ал 3NF сақталған.",
+            "Бұл қатынас 4NF-те орналасқан, ешқандай ереже бұзылмаған."
+        ],
+        correct_ru: ["2NF талабын бұзып тұр, өйткені A-> B; Tәуелділігі бастапқы құрама кілттің бір бөлігіне ішінара тәуелділік (partial dependency) тудырады."],
+        correct_kz: ["2NF талабын бұзып тұр, өйткені A-> B; Tәуелділігі бастапқы құрама кілттің бір бөлігіне ішінара тәуелділік (partial dependency) тудырады."]
+    },
+    {
+        text_ru: "«Products» кестесінде бағасы (price) 10000 мен 50000 аралығындағы және атауында (title) 'Smart' сөзі бар өнімдерді іздеу қажет. Төмендегі қай сұраныс логикалық жағынан БҰРЫС жұмыс істейді?",
+        text_kz: "«Products» кестесінде бағасы (price) 10000 мен 50000 аралығындағы және атауында (title) 'Smart' сөзі бар өнімдерді іздеу қажет. Төмендегі қай сұраныс логикалық жағынан БҰРЫС жұмыс істейді?",
+        options_ru: [
+            "SELECT * FROM Products WHERE price >= 10000 AND price <= 50000 AND title LIKE '%Smart%';",
+            "SELECT * FROM Products WHERE (price BETWEEN 10000 AND 50000) AND title LIKE 'Smart%';",
+            "SELECT * FROM Products WHERE price BETWEEN 10000 AND 50000 AND title LIKE 'Smart%';",
+            "SELECT * FROM Products WHERE price IN (10000, 50000) AND title LIKE '%Smart%';",
+            "SELECT * FROM Products WHERE price >= 10000 OR price <= 50000 AND title LIKE '%Smart%';"
+        ],
+        options_kz: [
+            "SELECT * FROM Products WHERE price >= 10000 AND price <= 50000 AND title LIKE '%Smart%';",
+            "SELECT * FROM Products WHERE (price BETWEEN 10000 AND 50000) AND title LIKE 'Smart%';",
+            "SELECT * FROM Products WHERE price BETWEEN 10000 AND 50000 AND title LIKE 'Smart%';",
+            "SELECT * FROM Products WHERE price IN (10000, 50000) AND title LIKE '%Smart%';",
+            "SELECT * FROM Products WHERE price >= 10000 OR price <= 50000 AND title LIKE '%Smart%';"
+        ],
+        correct_ru: ["SELECT * FROM Products WHERE price >= 10000 OR price <= 50000 AND title LIKE '%Smart%';"],
+        correct_kz: ["SELECT * FROM Products WHERE price >= 10000 OR price <= 50000 AND title LIKE '%Smart%';"]
+    },
+    {
+        text_ru: "Кестеде бірінші кілт бола алатын өрістер",
+        text_kz: "Кестеде бірінші кілт бола алатын өрістер",
+        options_ru: ["турист коды және телефон номері", "туған күні және турист коды", "телефон номері және қала", "есімі және қала", "есімі және турист коды"],
+        options_kz: ["турист коды және телефон номері", "туған күні және турист коды", "телефон номері және қала", "есімі және қала", "есімі және турист коды"],
+        correct_ru: ["турист коды және телефон номері"],
+        correct_kz: ["турист коды және телефон номері"]
+    },
+    {
+        text_ru: "Шағын көпағымды деректер базасының сервері",
+        text_kz: "Шағын көпағымды деректер базасының сервері",
+        options_ru: ["Php", "PhpMyAdmin", "SQL", "MySql", "Access"],
+        options_kz: ["Php", "PhpMyAdmin", "SQL", "MySql", "Access"],
+        correct_ru: ["MySql"],
+        correct_kz: ["MySql"]
+    },
+    {
+        text_ru: "Деректер қорында белгілі бір аралықты таңдап алу үшін сұраныста жазылатын кілт",
+        text_kz: "Деректер қорында белгілі бір аралықты таңдап алу үшін сұраныста жазылатын кілт",
+        options_ru: ["SELECT", "WHERE", "BETWEEN", "UNIQUE", "JOIN"],
+        options_kz: ["SELECT", "WHERE", "BETWEEN", "UNIQUE", "JOIN"],
+        correct_ru: ["BETWEEN"],
+        correct_kz: ["BETWEEN"]
+    },
+    {
+        text_ru: "PHP және MySQL байланыстыру үшін қажетті ақпараттар",
+        text_kz: "PHP және MySQL байланыстыру үшін қажетті ақпараттар",
+        options_ru: [
+            "ДК атауы, пайдаланушы аты, ДК-на кіру үшін құпиясөз, SQL командалар",
+            "хост, ДК атауы, пайдаланушы аты, ДК-на кіру үшін құпиясөз, MS Access бағдарламасы",
+            "хост, ДК атауы, пайдаланушы аты, ДК-на кіру үшін құпиясөз",
+            "хост, ДК атауы, пайдаланушы аты, ДК-на кіру үшін құпиясөз, SQL командалар",
+            "хост, ДК атауы, пайдаланушы аты, сервер порты, SQL командалар"
+        ],
+        options_kz: [
+            "ДК атауы, пайдаланушы аты, ДК-на кіру үшін құпиясөз, SQL командалар",
+            "хост, ДК атауы, пайдаланушы аты, ДК-на кіру үшін құпиясөз, MS Access бағдарламасы",
+            "хост, ДК атауы, пайдаланушы аты, ДК-на кіру үшін құпиясөз",
+            "хост, ДК атауы, пайдаланушы аты, ДК-на кіру үшін құпиясөз, SQL командалар",
+            "хост, ДК атауы, пайдаланушы аты, сервер порты, SQL командалар"
+        ],
+        correct_ru: ["хост, ДК атауы, пайдаланушы аты, ДК-на кіру үшін құпиясөз"],
+        correct_kz: ["хост, ДК атауы, пайдаланушы аты, ДК-на кіру үшін құпиясөз"]
+    },
+    {
+        text_ru: "Деректер қорында «Meketpter» кестесінен 8-сыныптарды литерлері және білім сапасы бойынша іріктеп шығару қажет. Осы тізімді білім сапасы өрісі бойынша кему ретімен сұрыптайтын SQL сұраныстар",
+        text_kz: "Деректер қорында «Meketpter» кестесінен 8-сыныптарды литерлері және білім сапасы бойынша іріктеп шығару қажет. Осы тізімді білім сапасы өрісі бойынша кему ретімен сұрыптайтын SQL сұраныстар",
+        image: "images/q100.png", // <-- ДОБАВЛЕНА КАРТИНКА (Таблица Mektepter)
+        options_ru: [
+            "SELECT Synyp, Liter, Bilim_sapasy FROM Mektepter WHERE Synyp=\"8\" ORDER BY Bilim_sapasy DESC;",
+            "SELECT Synyp, Liter, Bilim_sapasy FROM Mektepter WHERE Synyp=\"9\" ORDER BY Liter DESC;",
+            "SELECT Synyp, Liter, Bilim_sapasy FROM Mektepter WHERE Synyp=\"8\" ORDER BY Bilim_sapasy ASC;",
+            "SELECT Synyp, Liter, Bilim_sapasy FROM Bilim_sapasy WHERE Synyp=\"8\" ORDER BY Bilim_sapasy DESC;",
+            "SELECT Synyp, Liter, Bilim_sapasy FROM Mektepter WHERE Synyp=\"8\" GROUP BY Bilim_sapasy DESC;"
+        ],
+        options_kz: [
+            "SELECT Synyp, Liter, Bilim_sapasy FROM Mektepter WHERE Synyp=\"8\" ORDER BY Bilim_sapasy DESC;",
+            "SELECT Synyp, Liter, Bilim_sapasy FROM Mektepter WHERE Synyp=\"9\" ORDER BY Liter DESC;",
+            "SELECT Synyp, Liter, Bilim_sapasy FROM Mektepter WHERE Synyp=\"8\" ORDER BY Bilim_sapasy ASC;",
+            "SELECT Synyp, Liter, Bilim_sapasy FROM Bilim_sapasy WHERE Synyp=\"8\" ORDER BY Bilim_sapasy DESC;",
+            "SELECT Synyp, Liter, Bilim_sapasy FROM Mektepter WHERE Synyp=\"8\" GROUP BY Bilim_sapasy DESC;"
+        ],
+        correct_ru: ["SELECT Synyp, Liter, Bilim_sapasy FROM Mektepter WHERE Synyp=\"8\" ORDER BY Bilim_sapasy DESC;"],
+        correct_kz: ["SELECT Synyp, Liter, Bilim_sapasy FROM Mektepter WHERE Synyp=\"8\" ORDER BY Bilim_sapasy DESC;"]
     }
 ];
