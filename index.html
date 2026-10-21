@@ -2,15 +2,15 @@
 <html lang="ru">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>КТ Магистратура - Тестирование</title>
     <style>
-        /* --- СБРОС И БАЗОВЫЕ СТИЛИ --- */
         * {
             box-sizing: border-box;
             margin: 0;
             padding: 0;
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            -webkit-tap-highlight-color: transparent;
         }
 
         body {
@@ -22,13 +22,12 @@
             color: #333;
         }
 
-        /* --- КОНТЕЙНЕР ПРИЛОЖЕНИЯ --- */
         .app-container {
             background-color: #fff;
             width: 100%;
             max-width: 900px;
-            height: 90vh; /* Высота как в модальном окне */
-            border-radius: 12px;
+            height: 100vh;
+            max-height: 90vh;
             box-shadow: 0 4px 20px rgba(0,0,0,0.1);
             display: flex;
             flex-direction: column;
@@ -38,78 +37,171 @@
 
         /* --- ШАПКА --- */
         .header {
-            padding: 20px 30px;
+            padding: 15px 20px;
             display: flex;
             justify-content: space-between;
             align-items: center;
             border-bottom: 1px solid #eee;
+            flex-shrink: 0;
+            gap: 10px;
         }
 
         .header-title {
-            font-size: 18px;
+            font-size: 16px;
             font-weight: 600;
             color: #333;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            flex-grow: 1;
+        }
+
+        .header-controls {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        /* Переключатель языка */
+        .lang-switch {
+            display: flex;
+            background: #f0f0f0;
+            border-radius: 20px;
+            padding: 3px;
+            font-size: 12px;
+            font-weight: 600;
+        }
+
+        .lang-btn {
+            padding: 4px 10px;
+            border-radius: 15px;
+            border: none;
+            background: transparent;
+            cursor: pointer;
+            color: #666;
+            transition: all 0.2s;
+            font-weight: 700;
+        }
+
+        .lang-btn.active {
+            background: #fff;
+            color: #004085;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
         }
 
         .header-icons {
-            display: flex;
-            gap: 15px;
             color: #666;
             font-size: 20px;
             cursor: pointer;
         }
 
-        /* --- ПРОГРЕСС БАР --- */
+        /* --- ПРОГРЕСС --- */
         .progress-container {
-            padding: 10px 30px;
+            padding: 10px 20px;
             display: flex;
             align-items: center;
-            gap: 15px;
+            gap: 12px;
+            flex-shrink: 0;
         }
 
         .progress-bar-bg {
             flex-grow: 1;
-            height: 4px;
+            height: 6px;
             background-color: #e0e0e0;
-            border-radius: 2px;
+            border-radius: 3px;
             position: relative;
         }
 
         .progress-bar-fill {
             height: 100%;
-            background-color: #555; /* Темно-серый цвет прогресса */
-            width: 10%; /* Начальное значение */
-            border-radius: 2px;
+            background-color: #555;
+            width: 0%;
+            border-radius: 3px;
             transition: width 0.3s ease;
         }
 
         .counter {
-            font-size: 14px;
+            font-size: 13px;
             color: #555;
             font-weight: 500;
             white-space: nowrap;
         }
 
-        /* --- БЛОК ВОПРОСА --- */
+        /* --- КОНТЕНТ --- */
         .content-area {
             flex-grow: 1;
-            padding: 30px;
+            padding: 20px;
             overflow-y: auto;
             display: flex;
             flex-direction: column;
+            -webkit-overflow-scrolling: touch;
         }
 
+        /* --- СТАРТОВЫЙ ЭКРАН --- */
+        .start-screen {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            height: 100%;
+            text-align: center;
+            padding: 20px;
+        }
+
+        .start-screen h1 {
+            font-size: 24px;
+            margin-bottom: 10px;
+            color: #333;
+        }
+
+        .start-screen p {
+            color: #666;
+            margin-bottom: 30px;
+            font-size: 14px;
+        }
+
+        .input-group {
+            width: 100%;
+            max-width: 400px;
+            margin-bottom: 20px;
+            text-align: left;
+        }
+
+        .input-group label {
+            display: block;
+            font-size: 13px;
+            color: #666;
+            margin-bottom: 5px;
+            font-weight: 600;
+        }
+
+        .input-group input {
+            width: 100%;
+            padding: 12px 15px;
+            border: 1px solid #ccc;
+            border-radius: 8px;
+            font-size: 16px;
+            outline: none;
+            transition: border-color 0.2s;
+        }
+
+        .input-group input:focus {
+            border-color: #8cc6ff;
+        }
+
+        /* --- ВОПРОСЫ --- */
         .question-number {
             font-weight: 700;
-            margin-bottom: 15px;
-            font-size: 16px;
+            margin-bottom: 12px;
+            font-size: 15px;
+            color: #555;
         }
 
         .question-text {
             font-size: 16px;
-            line-height: 1.6;
+            line-height: 1.5;
             margin-bottom: 20px;
-            white-space: pre-wrap; /* Сохраняет переносы строк */
+            white-space: pre-wrap;
         }
 
         .code-snippet {
@@ -117,26 +209,27 @@
             padding: 2px 6px;
             border-radius: 4px;
             font-family: monospace;
-            color: #d63384; /* Розоватый оттенок как на скрине для кода */
+            color: #d63384;
         }
 
-        /* --- ВАРИАНТЫ ОТВЕТОВ --- */
         .options-list {
             display: flex;
             flex-direction: column;
             gap: 10px;
-            margin-top: 10px;
+            margin-top: 5px;
         }
 
         .option-item {
-            background-color: #f3f3f3; /* Светло-серый фон как на скриншоте */
+            background-color: #f3f3f3;
             border-radius: 8px;
-            padding: 15px 20px;
+            padding: 12px 15px;
             cursor: pointer;
             border: 2px solid transparent;
             transition: all 0.2s;
             font-size: 15px;
             line-height: 1.4;
+            display: flex;
+            align-items: flex-start;
         }
 
         .option-item:hover {
@@ -144,36 +237,40 @@
         }
 
         .option-item.selected {
-            border-color: #b0c4de; /* Легкая обводка при выборе, если нужно */
+            border-color: #b0c4de;
             background-color: #e3efff;
         }
-        
-        /* Стиль правильного/неправильного ответа (для проверки) */
-        .option-item.correct {
-            background-color: #d4edda;
-            border-color: #c3e6cb;
+
+        .option-letter {
+            font-weight: 700;
+            margin-right: 10px;
+            color: #333;
+            min-width: 18px;
         }
-        .option-item.incorrect {
-            background-color: #f8d7da;
-            border-color: #f5c6cb;
+
+        .option-text {
+            flex-grow: 1;
         }
 
         /* --- ФУТЕР --- */
         .footer {
-            padding: 20px 30px;
+            padding: 15px 20px;
             display: flex;
             justify-content: flex-end;
-            gap: 15px;
+            gap: 10px;
             background-color: #fff;
+            border-top: 1px solid #eee;
+            flex-shrink: 0;
         }
 
         .btn {
-            padding: 10px 25px;
-            border-radius: 20px;
+            padding: 12px 24px;
+            border-radius: 25px;
             border: none;
             font-size: 16px;
             cursor: pointer;
             transition: opacity 0.2s;
+            font-weight: 600;
         }
 
         .btn:disabled {
@@ -187,18 +284,79 @@
         }
 
         .btn-next {
-            background-color: #8cc6ff; /* Голубой цвет как на скрине */
+            background-color: #8cc6ff;
             color: #004085;
-            font-weight: 600;
         }
 
         .btn-next:hover {
             background-color: #7abaff;
         }
 
-        /* Скрытие элементов */
+        /* --- РЕЗУЛЬТАТ --- */
+        .result-screen {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100%;
+            text-align: center;
+            padding: 20px;
+        }
+
+        .result-emoji {
+            font-size: 60px;
+            margin-bottom: 20px;
+        }
+
+        .result-title {
+            font-size: 22px;
+            font-weight: 700;
+            margin-bottom: 10px;
+        }
+
+        .result-name {
+            font-size: 18px;
+            color: #555;
+            margin-bottom: 20px;
+        }
+
+        .result-score {
+            font-size: 48px;
+            font-weight: 800;
+            color: #004085;
+            margin: 10px 0;
+        }
+
+        .result-percent {
+            font-size: 18px;
+            color: #666;
+            margin-bottom: 30px;
+        }
+
+        /* --- УТИЛИТЫ --- */
         .hidden {
-            display: none;
+            display: none !important;
+        }
+
+        /* --- АДАПТИВНОСТЬ --- */
+        @media (max-width: 600px) {
+            .app-container {
+                max-height: 100vh;
+            }
+            .header { padding: 12px 15px; }
+            .header-title { font-size: 13px; }
+            .progress-container { padding: 8px 15px; }
+            .content-area { padding: 15px; }
+            .question-text { font-size: 15px; }
+            .option-item { padding: 12px; font-size: 14px; }
+            .footer {
+                padding: 12px 15px;
+                display: grid;
+                grid-template-columns: 1fr 1fr;
+            }
+            .btn { width: 100%; padding: 12px 10px; font-size: 15px; }
+            .start-screen h1 { font-size: 20px; }
+            .lang-btn { padding: 4px 8px; font-size: 11px; }
         }
     </style>
 </head>
@@ -207,77 +365,232 @@
 <div class="app-container">
     <!-- Шапка -->
     <div class="header">
-        <div class="header-title">КТ Магистратура - Базы данных</div>
-        <div class="header-icons">
-            <span>&#x21AA;</span> <!-- Иконка поделиться -->
-            <span>&#x2715;</span> <!-- Иконка крестик -->
+        <div class="header-title" id="headerTitle">КТ Магистратура - Базы данных</div>
+        <div class="header-controls">
+            <div class="lang-switch">
+                <button class="lang-btn active" data-lang="ru" onclick="setLang('ru')">RU</button>
+                <button class="lang-btn" data-lang="kz" onclick="setLang('kz')">KZ</button>
+            </div>
+            <div class="header-icons">
+                <span>&#x2715;</span>
+            </div>
         </div>
     </div>
 
     <!-- Прогресс -->
-    <div class="progress-container">
+    <div class="progress-container hidden" id="progressContainer">
         <div class="progress-bar-bg">
             <div class="progress-bar-fill" id="progressBar"></div>
         </div>
-        <div class="counter" id="counter">1 из 10</div>
+        <div class="counter" id="counter">0 из 0</div>
     </div>
 
     <!-- Контент -->
-    <div class="content-area" id="contentArea">
-        <!-- Сюда JS будет вставлять вопрос -->
-    </div>
+    <div class="content-area" id="contentArea"></div>
 
     <!-- Футер -->
-    <div class="footer">
+    <div class="footer hidden" id="footer">
         <button class="btn btn-back" id="btnBack" disabled>Назад</button>
         <button class="btn btn-next" id="btnNext">Далее</button>
     </div>
 </div>
 
-<!-- Подключаем файл с вопросами -->
 <script src="questions.js"></script>
 
 <script>
-    // --- ЛОГИКА ПРИЛОЖЕНИЯ ---
+    // --- ПЕРЕВОДЫ ---
+    const translations = {
+        ru: {
+            headerTitle: "КТ Магистратура - Базы данных",
+            welcome: "Добро пожаловать!",
+            subject: "Тест по предмету: Базы данных",
+            enterName: "Введите ваше ФИО",
+            namePlaceholder: "Иванов Иван Иванович",
+            startBtn: "Начать тест",
+            alertName: "Пожалуйста, введите корректное ФИО.",
+            question: "Вопрос",
+            back: "Назад",
+            next: "Далее",
+            finish: "Завершить",
+            testDone: "Тест завершен!",
+            correctAnswers: "Правильных ответов",
+            restart: "Пройти заново",
+            errorQuestions: "Ошибка: Вопросы не найдены."
+        },
+        kz: {
+            headerTitle: "КТ Магистратура - Дерекқорлар",
+            welcome: "Қош келдіңіз!",
+            subject: "Пән бойынша тест: Дерекқорлар",
+            enterName: "Аты-жөніңізді енгізіңіз",
+            namePlaceholder: "Иванов Иван Иванович",
+            startBtn: "Тестті бастау",
+            alertName: "Өтінемін, дұрыс аты-жөніңізді енгізіңіз.",
+            question: "Сұрақ",
+            back: "Артқа",
+            next: "Келесі",
+            finish: "Аяқтау",
+            testDone: "Тест аяқталды!",
+            correctAnswers: "Дұрыс жауаптар",
+            restart: "Қайта тапсыру",
+            errorQuestions: "Қате: Сұрақтар табылмады."
+        }
+    };
 
+    // --- СОСТОЯНИЕ ---
+    let currentLang = 'ru';
     let currentQuestionIndex = 0;
-    let userAnswers = {}; // Храним ответы пользователя {index: optionIndex}
+    let userAnswers = {};
+    let userName = "";
+    let currentScreen = 'start'; // 'start' | 'test' | 'result'
 
-    // DOM элементы
+    // DOM
     const contentArea = document.getElementById('contentArea');
+    const progressContainer = document.getElementById('progressContainer');
+    const footer = document.getElementById('footer');
     const counter = document.getElementById('counter');
     const progressBar = document.getElementById('progressBar');
     const btnBack = document.getElementById('btnBack');
     const btnNext = document.getElementById('btnNext');
+    const headerTitle = document.getElementById('headerTitle');
 
-    // Инициализация
-    function init() {
+    // --- УТИЛИТЫ ---
+    function t(key) {
+        return translations[currentLang][key] || key;
+    }
+
+    function shuffle(array) {
+        let currentIndex = array.length, randomIndex;
+        while (currentIndex != 0) {
+            randomIndex = Math.floor(Math.random() * currentIndex);
+            currentIndex--;
+            [array[currentIndex], array[randomIndex]] = [array[randomIndex], array[currentIndex]];
+        }
+        return array;
+    }
+
+    function formatText(text) {
+        return text.replace(/`([^`]+)`/g, '<span class="code-snippet">$1</span>');
+    }
+
+    // Получить текст вопроса на текущем языке
+    function getQText(q) {
+        return currentLang === 'ru' ? q.text_ru : q.text_kz;
+    }
+
+    // Получить варианты ответа на текущем языке
+    function getQOptions(q) {
+        return currentLang === 'ru' ? q.options_ru : q.options_kz;
+    }
+
+    // Получить правильный ответ на текущем языке
+    function getQCorrect(q) {
+        return currentLang === 'ru' ? q.correct_ru : q.correct_kz;
+    }
+
+    // --- ПЕРЕКЛЮЧЕНИЕ ЯЗЫКА ---
+    window.setLang = function(lang) {
+        if (currentLang === lang) return;
+        currentLang = lang;
+        
+        // Обновляем активную кнопку
+        document.querySelectorAll('.lang-btn').forEach(btn => {
+            btn.classList.toggle('active', btn.dataset.lang === lang);
+        });
+        
+        // Обновляем заголовок
+        headerTitle.textContent = t('headerTitle');
+
+        // Перерисовываем текущий экран
+        if (currentScreen === 'start') renderStartScreen();
+        else if (currentScreen === 'test') loadQuestion(currentQuestionIndex);
+        else if (currentScreen === 'result') finishTest();
+    };
+
+    // --- СТАРТОВЫЙ ЭКРАН ---
+    function renderStartScreen() {
+        currentScreen = 'start';
+        progressContainer.classList.add('hidden');
+        footer.classList.add('hidden');
+        
+        contentArea.innerHTML = `
+            <div class="start-screen">
+                <h1>${t('welcome')}</h1>
+                <p>${t('subject')}</p>
+                
+                <div class="input-group">
+                    <label>${t('enterName')}</label>
+                    <input type="text" id="userNameInput" placeholder="${t('namePlaceholder')}" autocomplete="off" value="${userName}">
+                </div>
+                
+                <button class="btn btn-next" style="width: 100%; max-width: 400px;" id="startBtn">${t('startBtn')}</button>
+            </div>
+        `;
+
+        const startBtn = document.getElementById('startBtn');
+        const nameInput = document.getElementById('userNameInput');
+
+        nameInput.focus();
+        // Ставим курсор в конец, если имя уже было введено
+        nameInput.setSelectionRange(nameInput.value.length, nameInput.value.length);
+
+        startBtn.onclick = () => {
+            const val = nameInput.value.trim();
+            if (val.length < 3) {
+                alert(t('alertName'));
+                return;
+            }
+            userName = val;
+            startTest();
+        };
+
+        nameInput.addEventListener('keypress', function (e) {
+            if (e.key === 'Enter') startBtn.click();
+        });
+    }
+
+    // --- НАЧАЛО ТЕСТА ---
+    function startTest() {
         if (!window.questions || window.questions.length === 0) {
-            contentArea.innerHTML = "<p>Ошибка: Вопросы не загружены. Проверьте файл questions.js</p>";
+            contentArea.innerHTML = `<p>${t('errorQuestions')}</p>`;
             return;
         }
+        
+        currentQuestionIndex = 0;
+        userAnswers = {};
+        currentScreen = 'test';
+        
+        progressContainer.classList.remove('hidden');
+        footer.classList.remove('hidden');
+        
         loadQuestion(currentQuestionIndex);
         updateNav();
     }
 
-    // Загрузка вопроса
+    // --- ЗАГРУЗКА ВОПРОСА ---
     function loadQuestion(index) {
         const q = window.questions[index];
+        const opts = getQOptions(q);
+        const shuffledOptions = shuffle([...opts]);
+        const correctText = getQCorrect(q);
         
-        // Формируем HTML
+        // Сохраненный ответ пользователя (если есть)
+        const savedAnswer = userAnswers[index];
+
         let html = `
-            <div class="question-number">Вопрос ${index + 1}</div>
-            <div class="question-text">${formatText(q.text)}</div>
+            <div class="question-number">${t('question')} ${index + 1}</div>
+            <div class="question-text">${formatText(getQText(q))}</div>
             <div class="options-list">
         `;
 
-        q.options.forEach((opt, i) => {
-            // Проверяем, выбирал ли пользователь этот ответ ранее
-            const isSelected = userAnswers[index] === i ? 'selected' : '';
-            
+        shuffledOptions.forEach((optText, i) => {
+            const letter = String.fromCharCode(65 + i); 
+            const isSelected = savedAnswer === optText ? 'selected' : '';
+            const safeOptText = optText.replace(/'/g, "\\'").replace(/"/g, '&quot;');
+
             html += `
-                <div class="option-item ${isSelected}" onclick="selectOption(${i})">
-                    ${String.fromCharCode(65 + i)}. ${opt}
+                <div class="option-item ${isSelected}" onclick="selectOption('${safeOptText}')">
+                    <span class="option-letter">${letter}.</span>
+                    <span class="option-text">${optText}</span>
                 </div>
             `;
         });
@@ -285,31 +598,22 @@
         html += `</div>`;
         contentArea.innerHTML = html;
 
-        // Обновляем прогресс
         const total = window.questions.length;
-        counter.textContent = `${index + 1} из ${total}`;
+        counter.textContent = `${index + 1} / ${total}`;
         progressBar.style.width = `${((index + 1) / total) * 100}%`;
 
-        // Настройка кнопок
         btnBack.disabled = index === 0;
-        btnNext.textContent = (index === total - 1) ? "Завершить" : "Далее";
+        btnBack.textContent = t('back');
+        btnNext.textContent = (index === total - 1) ? t('finish') : t('next');
     }
 
-    // Функция для выделения кода (жирным/моноширинным) в тексте вопроса
-    // Простая замена обратных кавычек на span
-    function formatText(text) {
-        return text.replace(/`([^`]+)`/g, '<span class="code-snippet">$1</span>');
-    }
-
-    // Выбор варианта
-    window.selectOption = function(optionIndex) {
-        // Сохраняем ответ
-        userAnswers[currentQuestionIndex] = optionIndex;
+    // --- ВЫБОР ОТВЕТА ---
+    window.selectOption = function(answerText) {
+        userAnswers[currentQuestionIndex] = answerText;
         
-        // Визуально обновляем выделение
-        const options = document.querySelectorAll('.option-item');
-        options.forEach((opt, idx) => {
-            if (idx === optionIndex) {
+        document.querySelectorAll('.option-item').forEach((opt) => {
+            const textNode = opt.querySelector('.option-text');
+            if (textNode.textContent === answerText) {
                 opt.classList.add('selected');
             } else {
                 opt.classList.remove('selected');
@@ -317,7 +621,7 @@
         });
     };
 
-    // Навигация
+    // --- НАВИГАЦИЯ ---
     function updateNav() {
         btnBack.onclick = () => {
             if (currentQuestionIndex > 0) {
@@ -327,12 +631,6 @@
         };
 
         btnNext.onclick = () => {
-            // Проверка, выбран ли ответ (опционально)
-            // if (userAnswers[currentQuestionIndex] === undefined) {
-            //     alert("Пожалуйста, выберите ответ!");
-            //     return;
-            // }
-
             if (currentQuestionIndex < window.questions.length - 1) {
                 currentQuestionIndex++;
                 loadQuestion(currentQuestionIndex);
@@ -342,31 +640,52 @@
         };
     }
 
+    // --- РЕЗУЛЬТАТ ---
+    // ВАЖНО: правильный ответ хранится на двух языках. Если пользователь отвечал на 
+    // русском, а потом переключил язык — сравнение все равно работает корректно, 
+    // так как мы сравниваем текст ответа именно на ТОМ языке, на котором сейчас интерфейс,
+    // и правильный ответ берем тоже на текущем языке.
+    // НО: сохраненный ответ userAnswers[idx] — это строка на языке, на котором пользователь отвечал.
+    // Чтобы корректно посчитать при смене языка, лучше сравнивать по индексу варианта. 
+    // Однако раз мы решили хранить текст — сделаем проверку "ответ пользователя совпадает с correct_ru ИЛИ correct_kz".
     function finishTest() {
-        // Подсчет результатов
+        currentScreen = 'result';
         let score = 0;
         window.questions.forEach((q, idx) => {
-            if (userAnswers[idx] === q.correct) {
+            const ans = userAnswers[idx];
+            if (ans && (ans === q.correct_ru || ans === q.correct_kz)) {
                 score++;
             }
         });
 
-        // Вывод результата вместо вопроса
+        const total = window.questions.length;
+        const percent = Math.round((score / total) * 100);
+
+        progressContainer.classList.add('hidden');
+        footer.classList.add('hidden');
+
+        let emoji = "😐";
+        if (percent >= 80) emoji = "🎉";
+        else if (percent >= 50) emoji = "👍";
+        else emoji = "📚";
+
         contentArea.innerHTML = `
-            <div style="text-align:center; margin-top: 50px;">
-                <h2>Тест завершен!</h2>
-                <p style="font-size: 20px; margin-top: 20px;">Ваш результат: <strong>${score}</strong> из ${window.questions.length}</p>
-                <button class="btn btn-next" style="margin-top:30px;" onclick="location.reload()">Пройти заново</button>
+            <div class="result-screen">
+                <div class="result-emoji">${emoji}</div>
+                <div class="result-title">${t('testDone')}</div>
+                <div class="result-name">${userName}</div>
+                
+                <div class="result-score">${score} / ${total}</div>
+                <div class="result-percent">${t('correctAnswers')}: ${percent}%</div>
+                
+                <button class="btn btn-next" style="width: 100%; max-width: 300px;" onclick="location.reload()">${t('restart')}</button>
             </div>
         `;
-        
-        // Скрываем навигацию
-        document.querySelector('.footer').style.display = 'none';
-        document.querySelector('.progress-container').style.display = 'none';
     }
 
-    // Запуск
-    init();
+    // --- ИНИЦИАЛИЗАЦИЯ ---
+    headerTitle.textContent = t('headerTitle');
+    renderStartScreen();
 
 </script>
 </body>
