@@ -37,7 +37,7 @@ window.questions = [
     {
         text_ru: "Какой тип связи показан на рисунке (структура поколений-предков / сын-отец)?",
         text_kz: "Суретте берілген (ұрпақ-ата / сын-отец құрылымы) байланыс түрі қандай?",
-        image: "images/q5.png", // <-- ДОБАВЛЕНА КАРТИНКА
+        image: "../images/q5.png", // <-- ДОБАВЛЕНА КАРТИНКА
         options_ru: ["Горизонтальная связь", "Связь один-к-одному", "Внешняя связь", "Рекурсивная связь", "Связь многие-ко-многим"],
         options_kz: ["көлденең байланыс", "бірге-бір байланыс", "сыртқы байланыс", "рекурсивті байланыс", "көпке-көп байланысы"],
         correct_ru: ["Рекурсивная связь"],
@@ -614,7 +614,7 @@ window.questions = [
     {
         text_ru: "«Computer Science» мамандығында оқитын және GPA балы 3.5-тен жоғары барлық студенттердің аты-жөні мен GPA көрсеткішін шығаратын ДҰРЫС SQL сұранысын таңдаңыз:",
         text_kz: "«Computer Science» мамандығында оқитын және GPA балы 3.5-тен жоғары барлық студенттердің аты-жөні мен GPA көрсеткішін шығаратын ДҰРЫС SQL сұранысын таңдаңыз:",
-        image: "images/q77.png", // <-- ДОБАВЛЕНА КАРТИНКА (Таблица Students)
+        image: "../images/q77.png", // <-- ДОБАВЛЕНА КАРТИНКА (Таблица Students)
         options_ru: [
             "SELECT name, gpa FROM Students WHERE major = 'Computer Science' AND gpa > 3.5;",
             "SELECT name, gpa FROM Students WHERE major = 'Computer Science' OR gpa > 3.5;",
@@ -635,7 +635,7 @@ window.questions = [
     {
         text_ru: "Студенттерді оқуға түскен жылы (‘enrollment_year’) бойынша топтастырып, әр жылғы студенттердің орташа GPA балын табатын SQL сұранысын көрсетіңіз:",
         text_kz: "Студенттерді оқуға түскен жылы (‘enrollment_year’) бойынша топтастырып, әр жылғы студенттердің орташа GPA балын табатын SQL сұранысын көрсетіңіз:",
-        image: "images/q78.png", // <-- ДОБАВЛЕНА КАРТИНКА (Таблица Students)
+        image: "../images/q77.png", // <-- ДОБАВЛЕНА КАРТИНКА (Таблица Students)
         options_ru: [
             "SELECT enrollment_year, AVG(gpa) FROM Students GROUP BY enrollment_year;",
             "SELECT enrollment_year, SUM(gpa) FROM Students WHERE gpa > 3.0;",
@@ -656,7 +656,7 @@ window.questions = [
     {
         text_ru: "Бөлім идентификаторы (‘department_id’) 10-ға тең қызметкерлердің негізгі жалақысы мен бонусын қосқандағы ЖАЛПЫ табысын (‘total_income’) шығаратын SQL сұранысы:",
         text_kz: "Бөлім идентификаторы (‘department_id’) 10-ға тең қызметкерлердің негізгі жалақысы мен бонусын қосқандағы ЖАЛПЫ табысын (‘total_income’) шығаратын SQL сұранысы:",
-        image: "images/q79.png", // <-- ДОБАВЛЕНА КАРТИНКА (Таблица Employees)
+        image: "../images/q79.png", // <-- ДОБАВЛЕНА КАРТИНКА (Таблица Employees)
         options_ru: [
             "SELECT full_name, (salary + bonus) AS total_income FROM Employees WHERE department_id = 10;",
             "SELECT full_name, SUM(salary, bonus) FROM Employees WHERE department_id = 10;",
@@ -677,7 +677,7 @@ window.questions = [
     {
         text_ru: "Бонусы белгіленбеген (яғни ‘bonus’ өрісі ‘NULL’ болып тұрған) қызметкерлерді табу үшін қай SQL шарты ДҰРЫС?",
         text_kz: "Бонусы белгіленбеген (яғни ‘bonus’ өрісі ‘NULL’ болып тұрған) қызметкерлерді табу үшін қай SQL шарты ДҰРЫС?",
-        image: "images/q80.png", // <-- ДОБАВЛЕНА КАРТИНКА (Таблица Employees)
+        image: "../images/q79.png", // <-- ДОБАВЛЕНА КАРТИНКА (Таблица Employees)
         options_ru: [
             "SELECT * FROM Employees WHERE bonus IS NULL;",
             "SELECT * FROM Employees WHERE bonus = NULL;",
@@ -698,7 +698,7 @@ window.questions = [
     {
         text_ru: "Багасы (‘price’) 20 000 теңгеден 200 000 теңгеге дейінгі диапазондағы тауарлардың тізімін шығару үшін қай сұраныс оңтайлы?",
         text_kz: "Багасы (‘price’) 20 000 теңгеден 200 000 теңгеге дейінгі диапазондағы тауарлардың тізімін шығару үшін қай сұраныс оңтайлы?",
-        image: "images/q81.png", // <-- ДОБАВЛЕНА КАРТИНКА (Таблица Products)
+        image: "../images/q81.png", // <-- ДОБАВЛЕНА КАРТИНКА (Таблица Products)
         options_ru: [
             "SELECT * FROM Products WHERE price BETWEEN 20000 AND 200000;",
             "SELECT * FROM Products WHERE price IN (20000, 200000);",
@@ -719,7 +719,7 @@ window.questions = [
     {
         text_ru: "Қоймада тауар таусылған (‘stock = 0’) өнімдердің атауын (‘title’) және бағасын шығаратын сұраныс:",
         text_kz: "Қоймада тауар таусылған (‘stock = 0’) өнімдердің атауын (‘title’) және бағасын шығаратын сұраныс:",
-        image: "images/q82.png", // <-- ДОБАВЛЕНА КАРТИНКА (Таблица Products)
+        image: "../images/q81.png", // <-- ДОБАВЛЕНА КАРТИНКА (Таблица Products)
         options_ru: [
             "SELECT title, price FROM Products WHERE stock = 0;",
             "SELECT title, price FROM Products WHERE stock IS NULL;",
@@ -1020,7 +1020,7 @@ window.questions = [
     {
         text_ru: "Деректер қорында «Meketpter» кестесінен 8-сыныптарды литерлері және білім сапасы бойынша іріктеп шығару қажет. Осы тізімді білім сапасы өрісі бойынша кему ретімен сұрыптайтын SQL сұраныстар",
         text_kz: "Деректер қорында «Meketpter» кестесінен 8-сыныптарды литерлері және білім сапасы бойынша іріктеп шығару қажет. Осы тізімді білім сапасы өрісі бойынша кему ретімен сұрыптайтын SQL сұраныстар",
-        image: "images/q100.png", // <-- ДОБАВЛЕНА КАРТИНКА (Таблица Mektepter)
+        image: "../images/q100.png", // <-- ДОБАВЛЕНА КАРТИНКА (Таблица Mektepter)
         options_ru: [
             "SELECT Synyp, Liter, Bilim_sapasy FROM Mektepter WHERE Synyp=\"8\" ORDER BY Bilim_sapasy DESC;",
             "SELECT Synyp, Liter, Bilim_sapasy FROM Mektepter WHERE Synyp=\"9\" ORDER BY Liter DESC;",
