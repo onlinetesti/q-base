@@ -1,7 +1,7 @@
-// База вопросов с поддержкой двух языков.
-// correct_ru и correct_kz должны ТОЧНО совпадать с текстом в options_ru/options_kz соответственно.
+// База вопросов. Публикуем в window, чтобы index.html гарантированно её увидел.
+// correct_ru / correct_kz должны ТОЧНО совпадать с текстом в options_ru / options_kz.
 
-const questions = [
+window.questions = [
     {
         text_ru: "Дана реляционная схема базы данных интернет-магазина:\n`Customers` (CustomerID, Name, Email)\n`Orders` (OrderID, CustomerID, OrderDate, TotalAmount)\n\nКакая из следующих SQL-инструкций выведет имена всех клиентов (`Name`), у которых общая сумма заказов (`TotalAmount`) превышает 50000, используя правильное соединение таблиц и группировку?",
         text_kz: "Интернет-дүкен дерекқорының реляциялық схемасы берілген:\n`Customers` (CustomerID, Name, Email)\n`Orders` (OrderID, CustomerID, OrderDate, TotalAmount)\n\nТөмендегі SQL нұсқаулықтарының қайсысы кестелерді дұрыс біріктіру және топтастыру арқылы жалпы тапсырыс сомасы (`TotalAmount`) 50000-нен асатын барлық клиенттердің (`Name`) есімдерін шығарады?",
