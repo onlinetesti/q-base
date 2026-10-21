@@ -57,74 +57,65 @@
             flex-grow: 1;
         }
 
-        .header-controls {
+        .header-controls { display: flex; align-items: center; gap: 10px; }
+        .lang-switch { display: flex; background: #f0f0f0; border-radius: 20px; padding: 3px; font-size: 12px; font-weight: 600; }
+        .lang-btn { padding: 4px 10px; border-radius: 15px; border: none; background: transparent; cursor: pointer; color: #666; transition: all 0.2s; font-weight: 700; }
+        .lang-btn.active { background: #fff; color: #004085; box-shadow: 0 1px 3px rgba(0,0,0,0.1); }
+
+        /* --- ПАНЕЛЬ НАВИГАЦИИ (КВАДРАТИКИ) --- */
+        .navigation-panel {
+            padding: 15px 20px;
             display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-
-        .lang-switch {
-            display: flex;
-            background: #f0f0f0;
-            border-radius: 20px;
-            padding: 3px;
-            font-size: 12px;
-            font-weight: 600;
-        }
-
-        .lang-btn {
-            padding: 4px 10px;
-            border-radius: 15px;
-            border: none;
-            background: transparent;
-            cursor: pointer;
-            color: #666;
-            transition: all 0.2s;
-            font-weight: 700;
-        }
-
-        .lang-btn.active {
-            background: #fff;
-            color: #004085;
-            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
-        }
-
-        .header-icons {
-            color: #666;
-            font-size: 20px;
-            cursor: pointer;
-        }
-
-        /* --- ПРОГРЕСС --- */
-        .progress-container {
-            padding: 10px 20px;
-            display: flex;
-            align-items: center;
-            gap: 12px;
+            flex-wrap: wrap;
+            gap: 8px;
+            justify-content: center;
+            border-bottom: 1px solid #eee;
             flex-shrink: 0;
+            background: #fafafa;
         }
 
-        .progress-bar-bg {
-            flex-grow: 1;
-            height: 6px;
-            background-color: #e0e0e0;
-            border-radius: 3px;
-            position: relative;
+        .nav-square {
+            width: 32px;
+            height: 32px;
+            border-radius: 6px;
+            border: 2px solid #ccc;
+            background: #fff;
+            color: #666;
+            font-size: 14px;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.2s;
         }
 
-        .progress-bar-fill {
-            height: 100%;
-            background-color: #555;
-            width: 0%;
-            border-radius: 3px;
-            transition: width 0.3s ease;
+        .nav-square:hover {
+            border-color: #8cc6ff;
         }
 
-        .counter {
-            font-size: 13px;
-            color: #555;
-            font-weight: 500;
-            white-space: nowrap;
+        .nav-square.active {
+            border-color: #004085;
+            color: #004085;
+            box-shadow: 0 0 0 2px rgba(0, 64, 133, 0.2);
+        }
+
+        .nav-square.answered {
+            background: #e3efff;
+            border-color: #8cc6ff;
+            color: #004085;
+        }
+        
+        /* Состояния для экрана результатов */
+        .nav-square.correct {
+            background: #d4edda;
+            border-color: #28a745;
+            color: #155724;
+        }
+        .nav-square.incorrect {
+            background: #f8d7da;
+            border-color: #dc3545;
+            color: #721c24;
         }
 
         /* --- КОНТЕНТ --- */
@@ -139,224 +130,110 @@
 
         /* --- СТАРТОВЫЙ ЭКРАН --- */
         .start-screen {
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            height: 100%;
-            text-align: center;
-            padding: 20px;
+            display: flex; flex-direction: column; justify-content: center; align-items: center;
+            height: 100%; text-align: center; padding: 20px;
         }
-
-        .start-screen h1 {
-            font-size: 24px;
-            margin-bottom: 10px;
-            color: #333;
-        }
-
-        .start-screen p {
-            color: #666;
-            margin-bottom: 30px;
-            font-size: 14px;
-        }
-
-        .input-group {
-            width: 100%;
-            max-width: 400px;
-            margin-bottom: 20px;
-            text-align: left;
-        }
-
-        .input-group label {
-            display: block;
-            font-size: 13px;
-            color: #666;
-            margin-bottom: 5px;
-            font-weight: 600;
-        }
-
+        .start-screen h1 { font-size: 24px; margin-bottom: 10px; }
+        .start-screen p { color: #666; margin-bottom: 30px; font-size: 14px; }
+        .input-group { width: 100%; max-width: 400px; margin-bottom: 20px; text-align: left; }
+        .input-group label { display: block; font-size: 13px; color: #666; margin-bottom: 5px; font-weight: 600; }
         .input-group input {
-            width: 100%;
-            padding: 12px 15px;
-            border: 1px solid #ccc;
-            border-radius: 8px;
-            font-size: 16px;
-            outline: none;
-            transition: border-color 0.2s;
+            width: 100%; padding: 12px 15px; border: 1px solid #ccc; border-radius: 8px;
+            font-size: 16px; outline: none; transition: border-color 0.2s;
         }
-
-        .input-group input:focus {
-            border-color: #8cc6ff;
-        }
+        .input-group input:focus { border-color: #8cc6ff; }
 
         /* --- ВОПРОСЫ --- */
-        .question-number {
-            font-weight: 700;
-            margin-bottom: 12px;
-            font-size: 15px;
-            color: #555;
-        }
-
-        .question-text {
-            font-size: 16px;
-            line-height: 1.5;
-            margin-bottom: 20px;
-            white-space: pre-wrap;
-        }
-
-        .code-snippet {
-            background-color: #f5f5f5;
-            padding: 2px 6px;
-            border-radius: 4px;
-            font-family: monospace;
-            color: #d63384;
-        }
-
-        .options-list {
-            display: flex;
-            flex-direction: column;
-            gap: 10px;
-            margin-top: 5px;
-        }
-
+        .question-number { font-weight: 700; margin-bottom: 12px; font-size: 15px; color: #555; }
+        .question-text { font-size: 16px; line-height: 1.5; margin-bottom: 20px; white-space: pre-wrap; }
+        .code-snippet { background-color: #f5f5f5; padding: 2px 6px; border-radius: 4px; font-family: monospace; color: #d63384; }
+        
+        .options-list { display: flex; flex-direction: column; gap: 10px; margin-top: 5px; }
         .option-item {
-            background-color: #f3f3f3;
-            border-radius: 8px;
-            padding: 12px 15px;
-            cursor: pointer;
-            border: 2px solid transparent;
-            transition: all 0.2s;
-            font-size: 15px;
-            line-height: 1.4;
-            display: flex;
-            align-items: flex-start;
+            background-color: #f3f3f3; border-radius: 8px; padding: 12px 15px;
+            cursor: pointer; border: 2px solid transparent; transition: all 0.2s;
+            font-size: 15px; line-height: 1.4; display: flex; align-items: flex-start;
         }
-
-        .option-item:hover {
-            background-color: #e9e9e9;
-        }
-
-        .option-item.selected {
-            border-color: #b0c4de;
-            background-color: #e3efff;
-        }
-
-        .option-letter {
-            font-weight: 700;
-            margin-right: 10px;
-            color: #333;
-            min-width: 18px;
-        }
-
-        .option-text {
-            flex-grow: 1;
-        }
+        .option-item:hover { background-color: #e9e9e9; }
+        .option-item.selected { border-color: #b0c4de; background-color: #e3efff; }
+        .option-letter { font-weight: 700; margin-right: 10px; color: #333; min-width: 18px; }
+        .option-text { flex-grow: 1; }
 
         /* --- ФУТЕР --- */
         .footer {
-            padding: 15px 20px;
-            display: flex;
-            justify-content: flex-end;
-            gap: 10px;
-            background-color: #fff;
-            border-top: 1px solid #eee;
-            flex-shrink: 0;
+            padding: 15px 20px; display: flex; justify-content: flex-end; gap: 10px;
+            background-color: #fff; border-top: 1px solid #eee; flex-shrink: 0;
         }
-
         .btn {
-            padding: 12px 24px;
-            border-radius: 25px;
-            border: none;
-            font-size: 16px;
-            cursor: pointer;
-            transition: opacity 0.2s;
-            font-weight: 600;
+            padding: 12px 24px; border-radius: 25px; border: none; font-size: 16px;
+            cursor: pointer; transition: opacity 0.2s; font-weight: 600;
         }
+        .btn:disabled { opacity: 0.5; cursor: not-allowed; }
+        .btn-back { background-color: #e0e0e0; color: #666; }
+        .btn-next { background-color: #8cc6ff; color: #004085; }
+        .btn-next:hover { background-color: #7abaff; }
 
-        .btn:disabled {
-            opacity: 0.5;
-            cursor: not-allowed;
+        /* --- РЕЗУЛЬТАТЫ (ДАШБОРД) --- */
+        .result-screen { padding-bottom: 20px; }
+        
+        .stats-card {
+            background: #fff; border: 1px solid #e0e0e0; border-radius: 12px;
+            padding: 20px; margin-bottom: 20px; text-align: center;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.02);
         }
+        
+        .stats-title { font-size: 20px; font-weight: 700; margin-bottom: 5px; }
+        .stats-name { font-size: 16px; color: #666; margin-bottom: 20px; }
+        
+        .stats-grid {
+            display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 10px; margin-bottom: 20px;
+        }
+        
+        .stat-box {
+            padding: 15px 10px; border-radius: 8px; background: #f8f9fa;
+            display: flex; flex-direction: column; align-items: center;
+        }
+        
+        .stat-box.green { background: #d4edda; color: #155724; }
+        .stat-box.red { background: #f8d7da; color: #721c24; }
+        .stat-box.blue { background: #e3efff; color: #004085; }
+        
+        .stat-value { font-size: 24px; font-weight: 800; }
+        .stat-label { font-size: 12px; opacity: 0.8; margin-top: 5px; }
 
-        .btn-back {
-            background-color: #e0e0e0;
-            color: #666;
+        .analysis-section { margin-top: 30px; }
+        .analysis-title { font-size: 18px; font-weight: 700; margin-bottom: 15px; border-bottom: 2px solid #eee; padding-bottom: 10px; }
+        
+        .analysis-item {
+            background: #fff; border: 1px solid #e0e0e0; border-radius: 8px;
+            padding: 15px; margin-bottom: 15px; border-left: 5px solid #ccc;
         }
-
-        .btn-next {
-            background-color: #8cc6ff;
-            color: #004085;
-        }
-
-        .btn-next:hover {
-            background-color: #7abaff;
-        }
-
-        /* --- РЕЗУЛЬТАТ --- */
-        .result-screen {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            height: 100%;
-            text-align: center;
-            padding: 20px;
-        }
-
-        .result-emoji {
-            font-size: 60px;
-            margin-bottom: 20px;
-        }
-
-        .result-title {
-            font-size: 22px;
-            font-weight: 700;
-            margin-bottom: 10px;
-        }
-
-        .result-name {
-            font-size: 18px;
-            color: #555;
-            margin-bottom: 20px;
-        }
-
-        .result-score {
-            font-size: 48px;
-            font-weight: 800;
-            color: #004085;
-            margin: 10px 0;
-        }
-
-        .result-percent {
-            font-size: 18px;
-            color: #666;
-            margin-bottom: 30px;
-        }
+        
+        .analysis-item.correct-item { border-left-color: #28a745; }
+        .analysis-item.incorrect-item { border-left-color: #dc3545; }
+        
+        .analysis-q-text { font-size: 15px; font-weight: 600; margin-bottom: 10px; }
+        .analysis-answer { font-size: 14px; margin-bottom: 5px; }
+        .analysis-answer.user-ans { color: #dc3545; }
+        .analysis-answer.correct-ans { color: #28a745; font-weight: 600; }
 
         /* --- УТИЛИТЫ --- */
-        .hidden {
-            display: none !important;
-        }
+        .hidden { display: none !important; }
 
         /* --- АДАПТИВНОСТЬ --- */
         @media (max-width: 600px) {
-            .app-container {
-                max-height: 100vh;
-            }
+            .app-container { max-height: 100vh; }
             .header { padding: 12px 15px; }
             .header-title { font-size: 13px; }
-            .progress-container { padding: 8px 15px; }
+            .navigation-panel { padding: 10px 15px; gap: 6px; }
+            .nav-square { width: 28px; height: 28px; font-size: 12px; }
             .content-area { padding: 15px; }
-            .question-text { font-size: 15px; }
-            .option-item { padding: 12px; font-size: 14px; }
-            .footer {
-                padding: 12px 15px;
-                display: grid;
-                grid-template-columns: 1fr 1fr;
-            }
+            .footer { padding: 12px 15px; display: grid; grid-template-columns: 1fr 1fr; }
             .btn { width: 100%; padding: 12px 10px; font-size: 15px; }
-            .start-screen h1 { font-size: 20px; }
-            .lang-btn { padding: 4px 8px; font-size: 11px; }
+            .stats-grid { gap: 5px; }
+            .stat-box { padding: 10px 5px; }
+            .stat-value { font-size: 20px; }
+            .stat-label { font-size: 11px; }
         }
     </style>
 </head>
@@ -365,24 +242,18 @@
 <div class="app-container">
     <!-- Шапка -->
     <div class="header">
-        <div class="header-title" id="headerTitle">КТ Магистратура - Базы данных</div>
+        <div class="header-title" id="headerTitle">КТ Магистратура</div>
         <div class="header-controls">
             <div class="lang-switch">
                 <button class="lang-btn active" data-lang="ru" onclick="setLang('ru')">RU</button>
                 <button class="lang-btn" data-lang="kz" onclick="setLang('kz')">KZ</button>
             </div>
-            <div class="header-icons">
-                <span>&#x2715;</span>
-            </div>
         </div>
     </div>
 
-    <!-- Прогресс -->
-    <div class="progress-container hidden" id="progressContainer">
-        <div class="progress-bar-bg">
-            <div class="progress-bar-fill" id="progressBar"></div>
-        </div>
-        <div class="counter" id="counter">0 из 0</div>
+    <!-- Панель навигации (Квадратики) -->
+    <div class="navigation-panel hidden" id="navigationPanel">
+        <!-- Генерируется через JS -->
     </div>
 
     <!-- Контент -->
@@ -395,10 +266,9 @@
     </div>
 </div>
 
-<!-- СНАЧАЛА подключаем вопросы -->
+<!-- Подключаем вопросы -->
 <script src="questions.js"></script>
 
-<!-- ПОТОМ логику -->
 <script>
     // --- ПЕРЕВОДЫ ---
     const translations = {
@@ -414,10 +284,16 @@
             back: "Назад",
             next: "Далее",
             finish: "Завершить",
-            testDone: "Тест завершен!",
-            correctAnswers: "Правильных ответов",
+            testDone: "Результаты теста",
+            statsTotal: "Всего",
+            statsCorrect: "Верно",
+            statsWrong: "Ошибки",
+            analysisTitle: "Разбор вопросов",
+            yourAnswer: "Ваш ответ:",
+            correctAnswer: "Правильный ответ:",
+            noAnswer: "Нет ответа",
             restart: "Пройти заново",
-            errorQuestions: "Ошибка: Вопросы не найдены. Проверьте файл questions.js"
+            errorQuestions: "Ошибка: Вопросы не найдены."
         },
         kz: {
             headerTitle: "КТ Магистратура - Дерекқорлар",
@@ -431,34 +307,36 @@
             back: "Артқа",
             next: "Келесі",
             finish: "Аяқтау",
-            testDone: "Тест аяқталды!",
-            correctAnswers: "Дұрыс жауаптар",
+            testDone: "Тест нәтижелері",
+            statsTotal: "Барлығы",
+            statsCorrect: "Дұрыс",
+            statsWrong: "Қателер",
+            analysisTitle: "Сұрақтарды талдау",
+            yourAnswer: "Сіздің жауабыңыз:",
+            correctAnswer: "Дұрыс жауап:",
+            noAnswer: "Жауап жоқ",
             restart: "Қайта тапсыру",
-            errorQuestions: "Қате: Сұрақтар табылмады. questions.js файлын тексеріңіз"
+            errorQuestions: "Қате: Сұрақтар табылмады."
         }
     };
 
     // --- СОСТОЯНИЕ ---
     let currentLang = 'ru';
     let currentQuestionIndex = 0;
-    let userAnswers = {};
+    let userAnswers = {}; // { index: "текст ответа" }
     let userName = "";
-    let currentScreen = 'start';
+    let currentScreen = 'start'; // 'start' | 'test' | 'result'
 
     // DOM
     const contentArea = document.getElementById('contentArea');
-    const progressContainer = document.getElementById('progressContainer');
+    const navigationPanel = document.getElementById('navigationPanel');
     const footer = document.getElementById('footer');
-    const counter = document.getElementById('counter');
-    const progressBar = document.getElementById('progressBar');
     const btnBack = document.getElementById('btnBack');
     const btnNext = document.getElementById('btnNext');
     const headerTitle = document.getElementById('headerTitle');
 
     // --- УТИЛИТЫ ---
-    function t(key) {
-        return translations[currentLang][key] || key;
-    }
+    function t(key) { return translations[currentLang][key] || key; }
 
     function shuffle(array) {
         let currentIndex = array.length, randomIndex;
@@ -474,12 +352,15 @@
         return text.replace(/`([^`]+)`/g, '<span class="code-snippet">$1</span>');
     }
 
-    function getQText(q) {
-        return currentLang === 'ru' ? q.text_ru : q.text_kz;
-    }
+    function getQText(q) { return currentLang === 'ru' ? q.text_ru : q.text_kz; }
+    function getQOptions(q) { return currentLang === 'ru' ? q.options_ru : q.options_kz; }
+    function getQCorrect(q) { return currentLang === 'ru' ? q.correct_ru : q.correct_kz; }
 
-    function getQOptions(q) {
-        return currentLang === 'ru' ? q.options_ru : q.options_kz;
+    // Проверка, правильный ли ответ
+    function isAnswerCorrect(qIndex) {
+        const q = window.questions[qIndex];
+        const ans = userAnswers[qIndex];
+        return ans && (ans === q.correct_ru || ans === q.correct_kz);
     }
 
     // --- ПЕРЕКЛЮЧЕНИЕ ЯЗЫКА ---
@@ -498,42 +379,32 @@
     // --- СТАРТОВЫЙ ЭКРАН ---
     function renderStartScreen() {
         currentScreen = 'start';
-        progressContainer.classList.add('hidden');
+        navigationPanel.classList.add('hidden');
         footer.classList.add('hidden');
-
+        
         contentArea.innerHTML = `
             <div class="start-screen">
                 <h1>${t('welcome')}</h1>
                 <p>${t('subject')}</p>
-
                 <div class="input-group">
                     <label>${t('enterName')}</label>
                     <input type="text" id="userNameInput" placeholder="${t('namePlaceholder')}" autocomplete="off" value="${userName}">
                 </div>
-
                 <button class="btn btn-next" style="width: 100%; max-width: 400px;" id="startBtn">${t('startBtn')}</button>
             </div>
         `;
 
         const startBtn = document.getElementById('startBtn');
         const nameInput = document.getElementById('userNameInput');
-
         nameInput.focus();
-        nameInput.setSelectionRange(nameInput.value.length, nameInput.value.length);
 
         startBtn.onclick = () => {
             const val = nameInput.value.trim();
-            if (val.length < 3) {
-                alert(t('alertName'));
-                return;
-            }
+            if (val.length < 3) { alert(t('alertName')); return; }
             userName = val;
             startTest();
         };
-
-        nameInput.addEventListener('keypress', function (e) {
-            if (e.key === 'Enter') startBtn.click();
-        });
+        nameInput.addEventListener('keypress', (e) => { if (e.key === 'Enter') startBtn.click(); });
     }
 
     // --- НАЧАЛО ТЕСТА ---
@@ -542,23 +413,59 @@
             contentArea.innerHTML = `<p>${t('errorQuestions')}</p>`;
             return;
         }
-
         currentQuestionIndex = 0;
         userAnswers = {};
         currentScreen = 'test';
-
-        progressContainer.classList.remove('hidden');
+        
+        navigationPanel.classList.remove('hidden');
         footer.classList.remove('hidden');
-
+        
+        renderNavigationSquares();
         loadQuestion(currentQuestionIndex);
-        updateNav();
+    }
+
+    // --- РЕНДЕР КВАДРАТИКОВ НАВИГАЦИИ ---
+    function renderNavigationSquares() {
+        navigationPanel.innerHTML = '';
+        window.questions.forEach((q, idx) => {
+            const square = document.createElement('div');
+            square.className = 'nav-square';
+            square.textContent = idx + 1;
+            
+            // Если на экране теста
+            if (currentScreen === 'test') {
+                if (idx === currentQuestionIndex) square.classList.add('active');
+                if (userAnswers[idx]) square.classList.add('answered');
+                
+                square.onclick = () => {
+                    currentQuestionIndex = idx;
+                    loadQuestion(currentQuestionIndex);
+                };
+            } 
+            // Если на экране результатов
+            else if (currentScreen === 'result') {
+                if (isAnswerCorrect(idx)) {
+                    square.classList.add('correct');
+                } else {
+                    square.classList.add('incorrect');
+                }
+                // По клику скроллим к разбору этого вопроса
+                square.onclick = () => {
+                    const el = document.getElementById(`analysis-${idx}`);
+                    if (el) el.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                };
+            }
+            navigationPanel.appendChild(square);
+        });
     }
 
     // --- ЗАГРУЗКА ВОПРОСА ---
     function loadQuestion(index) {
+        // Обновляем квадратики (активный класс)
+        if (currentScreen === 'test') renderNavigationSquares();
+
         const q = window.questions[index];
-        const opts = getQOptions(q);
-        const shuffledOptions = shuffle([...opts]);
+        const shuffledOptions = shuffle([...getQOptions(q)]);
         const savedAnswer = userAnswers[index];
 
         let html = `
@@ -568,7 +475,7 @@
         `;
 
         shuffledOptions.forEach((optText, i) => {
-            const letter = String.fromCharCode(65 + i);
+            const letter = String.fromCharCode(65 + i); 
             const isSelected = savedAnswer === optText ? 'selected' : '';
             const safeOptText = optText.replace(/'/g, "\\'").replace(/"/g, '&quot;');
 
@@ -582,94 +489,129 @@
 
         html += `</div>`;
         contentArea.innerHTML = html;
-
-        const total = window.questions.length;
-        counter.textContent = `${index + 1} / ${total}`;
-        progressBar.style.width = `${((index + 1) / total) * 100}%`;
+        contentArea.scrollTop = 0; // Скролл наверх при смене вопроса
 
         btnBack.disabled = index === 0;
         btnBack.textContent = t('back');
-        btnNext.textContent = (index === total - 1) ? t('finish') : t('next');
+        btnNext.textContent = (index === window.questions.length - 1) ? t('finish') : t('next');
     }
 
     // --- ВЫБОР ОТВЕТА ---
     window.selectOption = function(answerText) {
         userAnswers[currentQuestionIndex] = answerText;
+        
         document.querySelectorAll('.option-item').forEach((opt) => {
-            const textNode = opt.querySelector('.option-text');
-            if (textNode.textContent === answerText) {
+            if (opt.querySelector('.option-text').textContent === answerText) {
                 opt.classList.add('selected');
             } else {
                 opt.classList.remove('selected');
             }
         });
+        
+        // Обновляем квадратик (добавляем синий цвет "отвечено")
+        renderNavigationSquares();
     };
 
     // --- НАВИГАЦИЯ ---
-    function updateNav() {
-        btnBack.onclick = () => {
-            if (currentQuestionIndex > 0) {
-                currentQuestionIndex--;
-                loadQuestion(currentQuestionIndex);
-            }
-        };
+    btnBack.onclick = () => {
+        if (currentQuestionIndex > 0) {
+            currentQuestionIndex--;
+            loadQuestion(currentQuestionIndex);
+        }
+    };
 
-        btnNext.onclick = () => {
-            if (currentQuestionIndex < window.questions.length - 1) {
-                currentQuestionIndex++;
-                loadQuestion(currentQuestionIndex);
-            } else {
-                finishTest();
-            }
-        };
-    }
+    btnNext.onclick = () => {
+        if (currentQuestionIndex < window.questions.length - 1) {
+            currentQuestionIndex++;
+            loadQuestion(currentQuestionIndex);
+        } else {
+            finishTest();
+        }
+    };
 
-    // --- РЕЗУЛЬТАТ ---
+    // --- РЕЗУЛЬТАТЫ (ДАШБОРД) ---
     function finishTest() {
         currentScreen = 'result';
+        footer.classList.add('hidden'); // Скрываем кнопки Далее/Назад
+        
+        // Считаем статистику
         let score = 0;
         window.questions.forEach((q, idx) => {
-            const ans = userAnswers[idx];
-            if (ans && (ans === q.correct_ru || ans === q.correct_kz)) {
-                score++;
-            }
+            if (isAnswerCorrect(idx)) score++;
         });
-
+        
         const total = window.questions.length;
         const percent = Math.round((score / total) * 100);
+        const wrong = total - score;
 
-        progressContainer.classList.add('hidden');
-        footer.classList.add('hidden');
+        // Перерисовываем квадратики в режиме результатов (зеленые/красные)
+        renderNavigationSquares();
 
-        let emoji = "😐";
-        if (percent >= 80) emoji = "🎉";
-        else if (percent >= 50) emoji = "👍";
-        else emoji = "📚";
+        // Формируем список разбора
+        let analysisHtml = '';
+        window.questions.forEach((q, idx) => {
+            const correct = isAnswerCorrect(idx);
+            const userAns = userAnswers[idx] || t('noAnswer');
+            const correctAns = getQCorrect(q);
+            
+            // Экранируем текст для вывода
+            const safeUserAns = userAns.replace(/</g, '&lt;');
+            const safeCorrectAns = correctAns.replace(/</g, '&lt;');
+            const safeQText = formatText(getQText(q));
 
+            analysisHtml += `
+                <div class="analysis-item ${correct ? 'correct-item' : 'incorrect-item'}" id="analysis-${idx}">
+                    <div class="analysis-q-text">${idx + 1}. ${safeQText}</div>
+                    <div class="analysis-answer user-ans">
+                        <strong>${t('yourAnswer')}</strong> ${correct ? '✅' : '❌'} ${safeUserAns}
+                    </div>
+                    ${!correct ? `<div class="analysis-answer correct-ans"><strong>${t('correctAnswer')}</strong> ${safeCorrectAns}</div>` : ''}
+                </div>
+            `;
+        });
+
+        // Отрисовываем экран
         contentArea.innerHTML = `
             <div class="result-screen">
-                <div class="result-emoji">${emoji}</div>
-                <div class="result-title">${t('testDone')}</div>
-                <div class="result-name">${userName}</div>
+                <div class="stats-card">
+                    <div class="stats-title">${t('testDone')}</div>
+                    <div class="stats-name">${userName}</div>
+                    
+                    <div class="stats-grid">
+                        <div class="stat-box blue">
+                            <div class="stat-value">${total}</div>
+                            <div class="stat-label">${t('statsTotal')}</div>
+                        </div>
+                        <div class="stat-box green">
+                            <div class="stat-value">${score}</div>
+                            <div class="stat-label">${t('statsCorrect')}</div>
+                        </div>
+                        <div class="stat-box red">
+                            <div class="stat-value">${wrong}</div>
+                            <div class="stat-label">${t('statsWrong')}</div>
+                        </div>
+                    </div>
+                    
+                    <div style="font-size: 24px; font-weight: bold; margin-bottom: 20px;">
+                        ${percent}%
+                    </div>
+                    
+                    <button class="btn btn-next" style="width: 100%;" onclick="location.reload()">${t('restart')}</button>
+                </div>
 
-                <div class="result-score">${score} / ${total}</div>
-                <div class="result-percent">${t('correctAnswers')}: ${percent}%</div>
-
-                <button class="btn btn-next" style="width: 100%; max-width: 300px;" onclick="location.reload()">${t('restart')}</button>
+                <div class="analysis-section">
+                    <div class="analysis-title">${t('analysisTitle')}</div>
+                    ${analysisHtml}
+                </div>
             </div>
         `;
+        contentArea.scrollTop = 0;
     }
 
     // --- ИНИЦИАЛИЗАЦИЯ ---
     headerTitle.textContent = t('headerTitle');
     renderStartScreen();
 
-    // Проверка в консоли (можно удалить после отладки)
-    if (!window.questions) {
-        console.error("questions.js не загружен или не публикует window.questions. Проверьте путь и синтаксис.");
-    } else {
-        console.log("Загружено вопросов:", window.questions.length);
-    }
 </script>
 </body>
 </html>
