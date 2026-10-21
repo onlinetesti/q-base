@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>КТ Магистратура - Тестирование</title>
     <style>
+        /* --- СБРОС --- */
         * {
             box-sizing: border-box;
             margin: 0;
@@ -62,7 +63,6 @@
             gap: 10px;
         }
 
-        /* Переключатель языка */
         .lang-switch {
             display: flex;
             background: #f0f0f0;
@@ -395,8 +395,10 @@
     </div>
 </div>
 
+<!-- СНАЧАЛА подключаем вопросы -->
 <script src="questions.js"></script>
 
+<!-- ПОТОМ логику -->
 <script>
     // --- ПЕРЕВОДЫ ---
     const translations = {
@@ -415,7 +417,7 @@
             testDone: "Тест завершен!",
             correctAnswers: "Правильных ответов",
             restart: "Пройти заново",
-            errorQuestions: "Ошибка: Вопросы не найдены."
+            errorQuestions: "Ошибка: Вопросы не найдены. Проверьте файл questions.js"
         },
         kz: {
             headerTitle: "КТ Магистратура - Дерекқорлар",
@@ -432,7 +434,7 @@
             testDone: "Тест аяқталды!",
             correctAnswers: "Дұрыс жауаптар",
             restart: "Қайта тапсыру",
-            errorQuestions: "Қате: Сұрақтар табылмады."
+            errorQuestions: "Қате: Сұрақтар табылмады. questions.js файлын тексеріңіз"
         }
     };
 
@@ -441,7 +443,7 @@
     let currentQuestionIndex = 0;
     let userAnswers = {};
     let userName = "";
-    let currentScreen = 'start'; // 'start' | 'test' | 'result'
+    let currentScreen = 'start';
 
     // DOM
     const contentArea = document.getElementById('contentArea');
@@ -472,35 +474,22 @@
         return text.replace(/`([^`]+)`/g, '<span class="code-snippet">$1</span>');
     }
 
-    // Получить текст вопроса на текущем языке
     function getQText(q) {
         return currentLang === 'ru' ? q.text_ru : q.text_kz;
     }
 
-    // Получить варианты ответа на текущем языке
     function getQOptions(q) {
         return currentLang === 'ru' ? q.options_ru : q.options_kz;
-    }
-
-    // Получить правильный ответ на текущем языке
-    function getQCorrect(q) {
-        return currentLang === 'ru' ? q.correct_ru : q.correct_kz;
     }
 
     // --- ПЕРЕКЛЮЧЕНИЕ ЯЗЫКА ---
     window.setLang = function(lang) {
         if (currentLang === lang) return;
         currentLang = lang;
-        
-        // Обновляем активную кнопку
         document.querySelectorAll('.lang-btn').forEach(btn => {
             btn.classList.toggle('active', btn.dataset.lang === lang);
         });
-        
-        // Обновляем заголовок
         headerTitle.textContent = t('headerTitle');
-
-        // Перерисовываем текущий экран
         if (currentScreen === 'start') renderStartScreen();
         else if (currentScreen === 'test') loadQuestion(currentQuestionIndex);
         else if (currentScreen === 'result') finishTest();
@@ -511,17 +500,17 @@
         currentScreen = 'start';
         progressContainer.classList.add('hidden');
         footer.classList.add('hidden');
-        
+
         contentArea.innerHTML = `
             <div class="start-screen">
                 <h1>${t('welcome')}</h1>
                 <p>${t('subject')}</p>
-                
+
                 <div class="input-group">
                     <label>${t('enterName')}</label>
                     <input type="text" id="userNameInput" placeholder="${t('namePlaceholder')}" autocomplete="off" value="${userName}">
                 </div>
-                
+
                 <button class="btn btn-next" style="width: 100%; max-width: 400px;" id="startBtn">${t('startBtn')}</button>
             </div>
         `;
@@ -530,7 +519,6 @@
         const nameInput = document.getElementById('userNameInput');
 
         nameInput.focus();
-        // Ставим курсор в конец, если имя уже было введено
         nameInput.setSelectionRange(nameInput.value.length, nameInput.value.length);
 
         startBtn.onclick = () => {
@@ -554,14 +542,14 @@
             contentArea.innerHTML = `<p>${t('errorQuestions')}</p>`;
             return;
         }
-        
+
         currentQuestionIndex = 0;
         userAnswers = {};
         currentScreen = 'test';
-        
+
         progressContainer.classList.remove('hidden');
         footer.classList.remove('hidden');
-        
+
         loadQuestion(currentQuestionIndex);
         updateNav();
     }
@@ -571,9 +559,6 @@
         const q = window.questions[index];
         const opts = getQOptions(q);
         const shuffledOptions = shuffle([...opts]);
-        const correctText = getQCorrect(q);
-        
-        // Сохраненный ответ пользователя (если есть)
         const savedAnswer = userAnswers[index];
 
         let html = `
@@ -583,7 +568,7 @@
         `;
 
         shuffledOptions.forEach((optText, i) => {
-            const letter = String.fromCharCode(65 + i); 
+            const letter = String.fromCharCode(65 + i);
             const isSelected = savedAnswer === optText ? 'selected' : '';
             const safeOptText = optText.replace(/'/g, "\\'").replace(/"/g, '&quot;');
 
@@ -610,7 +595,6 @@
     // --- ВЫБОР ОТВЕТА ---
     window.selectOption = function(answerText) {
         userAnswers[currentQuestionIndex] = answerText;
-        
         document.querySelectorAll('.option-item').forEach((opt) => {
             const textNode = opt.querySelector('.option-text');
             if (textNode.textContent === answerText) {
@@ -641,13 +625,6 @@
     }
 
     // --- РЕЗУЛЬТАТ ---
-    // ВАЖНО: правильный ответ хранится на двух языках. Если пользователь отвечал на 
-    // русском, а потом переключил язык — сравнение все равно работает корректно, 
-    // так как мы сравниваем текст ответа именно на ТОМ языке, на котором сейчас интерфейс,
-    // и правильный ответ берем тоже на текущем языке.
-    // НО: сохраненный ответ userAnswers[idx] — это строка на языке, на котором пользователь отвечал.
-    // Чтобы корректно посчитать при смене языка, лучше сравнивать по индексу варианта. 
-    // Однако раз мы решили хранить текст — сделаем проверку "ответ пользователя совпадает с correct_ru ИЛИ correct_kz".
     function finishTest() {
         currentScreen = 'result';
         let score = 0;
@@ -674,10 +651,10 @@
                 <div class="result-emoji">${emoji}</div>
                 <div class="result-title">${t('testDone')}</div>
                 <div class="result-name">${userName}</div>
-                
+
                 <div class="result-score">${score} / ${total}</div>
                 <div class="result-percent">${t('correctAnswers')}: ${percent}%</div>
-                
+
                 <button class="btn btn-next" style="width: 100%; max-width: 300px;" onclick="location.reload()">${t('restart')}</button>
             </div>
         `;
@@ -687,6 +664,12 @@
     headerTitle.textContent = t('headerTitle');
     renderStartScreen();
 
+    // Проверка в консоли (можно удалить после отладки)
+    if (!window.questions) {
+        console.error("questions.js не загружен или не публикует window.questions. Проверьте путь и синтаксис.");
+    } else {
+        console.log("Загружено вопросов:", window.questions.length);
+    }
 </script>
 </body>
 </html>
