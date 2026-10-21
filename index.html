@@ -149,6 +149,14 @@
         }
         .option-item:hover { background-color: #e9e9e9; }
         .option-item.selected { border-color: #b0c4de; background-color: #e3efff; }
+
+        /* Буква варианта (A, B, C...) */
+        .option-letter {
+            font-weight: 700;
+            margin-right: 10px;
+            color: #333;
+            min-width: 20px;
+        }
         
         /* Маркер для ОДИНОЧНОГО выбора (круглый) */
         .option-marker-single {
@@ -298,7 +306,7 @@
             welcome: "Добро пожаловать!",
             subject: "Тест по предмету: Базы данных",
             enterName: "Введите ваше ФИО",
-            namePlaceholder: "Иванов Иван Иванович",
+            namePlaceholder: "Введите ваше ФИО",
             startBtn: "Начать тест",
             alertName: "Пожалуйста, введите корректное ФИО.",
             question: "Вопрос",
@@ -317,11 +325,11 @@
             errorQuestions: "Ошибка: Вопросы не найдены."
         },
         kz: {
-            headerTitle: "КТ Магистратура - Дерекқорлар",
+            headerTitle: "КТ Магистратура - Деректер базасы",
             welcome: "Қош келдіңіз!",
             subject: "Пән бойынша тест: Дерекқорлар",
             enterName: "Аты-жөніңізді енгізіңіз",
-            namePlaceholder: "Иванов Иван Иванович",
+            namePlaceholder: "Аты-жөніңізді енгізіңіз",
             startBtn: "Тестті бастау",
             alertName: "Өтінемін, дұрыс аты-жөніңізді енгізіңіз.",
             question: "Сұрақ",
@@ -383,7 +391,6 @@
     function getQOptions(q) { return currentLang === 'ru' ? q.options_ru : q.options_kz; }
     function getQCorrect(q) { return currentLang === 'ru' ? q.correct_ru : q.correct_kz; }
 
-    // Проверка правильности (работает и для строки, и для массива)
     function isAnswerCorrect(qIndex) {
         const q = currentQuestions[qIndex];
         const userAns = userAnswers[qIndex];
@@ -392,12 +399,10 @@
 
         const correctArr = getQCorrect(q);
         
-        // Если ответ один (строка) — просто сравниваем
         if (!Array.isArray(userAns)) {
             return correctArr.includes(userAns);
         }
 
-        // Если ответов несколько (массив) — сравниваем наборы
         if (userAns.length !== correctArr.length) return false;
         const sortedUser = [...userAns].sort();
         const sortedCorrect = [...correctArr].sort();
@@ -480,7 +485,6 @@
             
             if (currentScreen === 'test') {
                 if (idx === currentQuestionIndex) square.classList.add('active');
-                // Если на вопрос дан ответ (массив не пустой или строка не пустая)
                 const ans = userAnswers[idx];
                 if (ans && (Array.isArray(ans) ? ans.length > 0 : ans !== "")) {
                     square.classList.add('answered');
@@ -516,7 +520,6 @@
         // ОПРЕДЕЛЯЕМ РЕЖИМ: если вариантов 8 и более — множественный выбор
         const isMultipleChoice = shuffledOptions.length >= 8;
         
-        // Получаем сохраненные ответы (для множ. это массив, для одиночного - строка)
         const savedAnswer = userAnswers[index];
 
         let html = `
@@ -531,7 +534,6 @@
         html += `<div class="options-list">`;
 
         shuffledOptions.forEach((optText, i) => {
-            // Проверяем, выбран ли этот вариант
             let isSelected = false;
             if (isMultipleChoice) {
                 isSelected = Array.isArray(savedAnswer) && savedAnswer.includes(optText);
@@ -541,12 +543,16 @@
             
             const safeOptText = optText.replace(/'/g, "\\'").replace(/"/g, '&quot;');
             
+            // Генерируем букву (A, B, C...)
+            const letter = String.fromCharCode(65 + i);
+            
             // Выбираем тип маркера в зависимости от режима
             const markerClass = isMultipleChoice ? 'option-marker-multi' : 'option-marker-single';
             const clickHandler = isMultipleChoice ? `toggleMultiOption('${safeOptText}')` : `selectSingleOption('${safeOptText}')`;
 
             html += `
                 <div class="option-item ${isSelected ? 'selected' : ''}" onclick="${clickHandler}">
+                    <span class="option-letter">${letter}.</span>
                     <div class="${markerClass}"></div>
                     <span class="option-text">${optText}</span>
                 </div>
@@ -566,7 +572,6 @@
     window.selectSingleOption = function(answerText) {
         userAnswers[currentQuestionIndex] = answerText;
         
-        // Визуально выделяем только один
         document.querySelectorAll('.option-item').forEach((opt) => {
             const textNode = opt.querySelector('.option-text');
             if (textNode.textContent === answerText) {
@@ -589,12 +594,11 @@
         const idx = arr.indexOf(answerText);
         
         if (idx > -1) {
-            arr.splice(idx, 1); // Убираем
+            arr.splice(idx, 1);
         } else {
-            arr.push(answerText); // Добавляем
+            arr.push(answerText);
         }
         
-        // Визуально обновляем
         document.querySelectorAll('.option-item').forEach((opt) => {
             const textNode = opt.querySelector('.option-text');
             if (arr.includes(textNode.textContent)) {
@@ -645,7 +649,6 @@
             const correct = isAnswerCorrect(idx);
             const userAns = userAnswers[idx];
             
-            // Форматируем ответ пользователя для вывода
             let userAnsStr = t('noAnswer');
             if (userAns) {
                 if (Array.isArray(userAns)) {
