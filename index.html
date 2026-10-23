@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="ru">
+<html lang="kz">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
@@ -21,6 +21,11 @@
             align-items: center;
             min-height: 100vh;
             color: #333;
+            /* Блокировка выделения текста на всей странице */
+            -webkit-user-select: none;
+            -moz-user-select: none;
+            -ms-user-select: none;
+            user-select: none;
         }
 
         .app-container {
@@ -118,6 +123,11 @@
         .input-group input {
             width: 100%; padding: 12px 15px; border: 1px solid #ccc; border-radius: 8px;
             font-size: 16px; outline: none; transition: border-color 0.2s;
+            /* Разрешаем выделение и ввод в поле ФИО, иначе его нельзя будет заполнить */
+            -webkit-user-select: text;
+            -moz-user-select: text;
+            -ms-user-select: text;
+            user-select: text;
         }
         .input-group input:focus { border-color: #8cc6ff; }
 
@@ -137,6 +147,8 @@
             border-radius: 8px;
             border: 1px solid #ddd;
             box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+            /* Защита картинки от перетаскивания */
+            pointer-events: none;
         }
 
         .options-list { display: flex; flex-direction: column; gap: 10px; margin-top: 5px; }
@@ -273,8 +285,8 @@
         <div class="header-title" id="headerTitle">КТ Магистратура</div>
         <div class="header-controls">
             <div class="lang-switch">
-                <button class="lang-btn active" data-lang="ru" onclick="setLang('ru')">RU</button>
-                <button class="lang-btn" data-lang="kz" onclick="setLang('kz')">KZ</button>
+                <button class="lang-btn" data-lang="ru" onclick="setLang('ru')">RU</button>
+                <button class="lang-btn active" data-lang="kz" onclick="setLang('kz')">KZ</button>
             </div>
         </div>
     </div>
@@ -296,6 +308,35 @@
 <script src="questions.js"></script>
 
 <script>
+    // --- ЗАЩИТА ОТ КОПИРОВАНИЯ ---
+    // 1. Блокируем контекстное меню (правую кнопку мыши)
+    document.addEventListener('contextmenu', function(e) {
+        e.preventDefault();
+    });
+
+    // 2. Блокируем копирование (Ctrl+C / Cmd+C)
+    document.addEventListener('copy', function(e) {
+        e.preventDefault();
+    });
+
+    // 3. Блокируем вырезание (Ctrl+X / Cmd+X)
+    document.addEventListener('cut', function(e) {
+        e.preventDefault();
+    });
+
+    // 4. Блокируем горячие клавиши Ctrl+C, Ctrl+X, Ctrl+A, Ctrl+U (исходный код)
+    document.addEventListener('keydown', function(e) {
+        if ((e.ctrlKey || e.metaKey) && (e.key === 'c' || e.key === 'C' || e.key === 'x' || e.key === 'X' || e.key === 'a' || e.key === 'A' || e.key === 'u' || e.key === 'U')) {
+            e.preventDefault();
+            return false;
+        }
+    });
+
+    // 5. Блокируем перетаскивание (drag) картинок и текста
+    document.addEventListener('dragstart', function(e) {
+        e.preventDefault();
+    });
+
     // --- КОНСТАНТЫ ---
     const QUESTIONS_PER_TEST = 20;
 
@@ -350,7 +391,8 @@
     };
 
     // --- СОСТОЯНИЕ ---
-    let currentLang = 'ru';
+    // Изначальный язык — казахский
+    let currentLang = 'kz';
     let currentQuestionIndex = 0;
     let userAnswers = {}; 
     let userName = "";
@@ -713,6 +755,7 @@
     }
 
     // --- ИНИЦИАЛИЗАЦИЯ ---
+    // Применяем казахский язык к заголовку при старте
     headerTitle.textContent = t('headerTitle');
     renderStartScreen();
 </script>
